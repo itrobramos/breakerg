@@ -38,6 +38,7 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
+                            <th>Email</th>
                             <th>Contacto</th>
                             <th></th>
                         </tr>
@@ -47,6 +48,7 @@
                             <tr>
                                 <td>{{ $supplier->name }}</td>
                                 <td>{{ $supplier->email }}</td>
+                                <td>{{ $supplier->contact }}</td>
                                 <td>
                                     <a class="btn btn-info btn-sm" href="{{ route('suppliers.edit', ['id' => $supplier->id]) }}">
                                         <i class="fas fa-pencil-alt">
