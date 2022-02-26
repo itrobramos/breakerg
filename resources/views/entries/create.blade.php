@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
                         <label for="exampleInputEmail1">Proveedor</label>
-                        <select name="supplierId" class="form-control">
+                        <select name="supplierId" class="form-control" required>
                             <option value="">Seleccione</option>
                             @foreach ($suppliers as $c => $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -36,7 +36,7 @@
 
                     <div class="col-md-6 col-lg-3 col-sm-6 col-xs-6">
                         <label for="exampleInputEmail1">Fecha Entrada</label>
-                        <input type="date" name="date" class="form-control">
+                        <input type="date" name="date" class="form-control" required>
                     </div>
 
 

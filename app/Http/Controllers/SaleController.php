@@ -130,7 +130,7 @@ class SaleController extends Controller
                 $object->save();
             }
 
-            //\DB::commit();
+            \DB::commit();
             return redirect('sales/add')->with('success', 'Venta creada correctamente.');
         } catch (\Throwable $th) {
             \DB::rollback();
