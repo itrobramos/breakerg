@@ -17,6 +17,11 @@ use DB;
 class SaleController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     public function index()
     {
         $objects = Sale::orderBy('date', 'desc')->paginate(20);
