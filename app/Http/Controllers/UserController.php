@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required',
         ]);
 
 
@@ -75,7 +75,7 @@ class UserController extends Controller
         } catch (\Throwable $th) {
         }
 
-        return redirect('users')->with('success','Usuario creado correctamente.');
+        return redirect('users')->with('success','Usuario creado correctamente. Revise la bandera de entrada del usuario.');
     }
 
     public function edit($id)
