@@ -88,17 +88,17 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="true">
 
-                        <li class="nav-header">Catálogos</li>
-
                         <li class="nav-item">
                             <a href="/home" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Dashboard
+                                    Inicio
                                     <i class="right"></i>
                                 </p>
                             </a>
                         </li>
+                        
+                        <li class="nav-header">Catálogos</li>
 
                         <li class="nav-item">
                             <a href="{{ url('clients') }}" class="nav-link">
@@ -120,7 +120,7 @@
 
                         <li class="nav-item">
                             <a href="{{ url('products') }}" class="nav-link">
-                                <i class="nav-icon fas fa-users"></i>
+                                <i class="fas fa-solid fa-box"></i>
                                 <p>
                                     Productos
                                 </p>
@@ -151,14 +151,14 @@
 
                         <li class="nav-item">
                             <a href="{{ url('entries/add') }}" class="nav-link">
-                                <i class="fas fa-fan"></i>
+                                <i class="fas fa-solid fa-box"></i>
                                 <p class="text">Entrada Mercancía</p>
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a href="{{ url('sales/add') }}" class="nav-link">
-                                <i class="fas fa-fan"></i>
+                                <i class="fas fa-shopping-cart"></i>
                                 <p class="text">Vender</p>
                             </a>
                         </li>
