@@ -35,6 +35,11 @@ class UserController extends Controller
             'email' => 'required',
         ]);
 
+        $existingUser = User::where('email', $request->email)->where('deleted_at', null)->first();
+
+        if(isset($existingUser)){
+            return redirect('users')->with('danger','El usuario ingresado ya existe.');
+        }
 
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
