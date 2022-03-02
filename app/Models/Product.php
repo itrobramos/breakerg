@@ -13,7 +13,7 @@ class Product extends Model
     }
 
     public function type(){
-        return $this->belongsTo(ProductType::class,'productTypeId','id');
+        return $this->belongsTo(ProductType::class,'productTypeId','id')->withTrashed();
     }
 
 }
