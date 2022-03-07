@@ -41,7 +41,7 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Precio</th>
+                            <th>Precio de Venta</th>
                             <th>Stock</th>
                             <th>Categoría</th>
                             <th></th>

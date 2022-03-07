@@ -88,7 +88,7 @@
                         maxBarThickness: 30,
                         minBarLength: 10,
 
-                        label: 'Ingresos',
+                        label: 'Ventas',
                         backgroundColor: 'rgba(40, 159, 28 ,0.9)',
                         borderColor: 'rgba(40, 159, 28 ,0.8)',
                         pointRadius: false,
@@ -108,7 +108,7 @@
                         maxBarThickness: 30,
                         minBarLength: 10,
 
-                        label: 'Egresos',
+                        label: 'Compras',
                         backgroundColor: 'rgba(217, 57, 28 ,0.9)',
                         borderColor: 'rgba(217, 57, 28 ,0.8)',
                         pointRadius: false,
