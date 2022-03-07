@@ -78,7 +78,9 @@
                         {{-- <a href="{{ url('users/changePassword') }}" class="d-block">
                             {{ Auth::user()->name }}
                         </a> --}}
-                        {{ Auth::user()->name }}
+                        <p>
+                            {{ Auth::user()->name }}
+                        </p>
                     </div>
                 </div>
 
