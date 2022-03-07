@@ -25,10 +25,14 @@
         <div class="card">
 
             <div class="card-header">
-                <div class="row d-flex flex-row-reverse" style="padding-right:20px;">
+                <div class="row justify-content-between" style="padding-right:20px;">
+                    <a href="{{ url('home') }}">
+                        <button type="button" class="btn btn-danger">Regresar</button>
+                    </a>
                     <a href="{{ url('clients/add') }}">
                         <button type="button" class="btn btn-success">Agregar</button>
                     </a>
+
                 </div>
             </div>
 

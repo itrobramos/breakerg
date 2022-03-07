@@ -58,7 +58,7 @@
                       
                         <div class="row">
                             <div class="col-12">
-                                <a href="" class="btn btn-danger">Cancelar</a>
+                                <a href="{{ route('home')}}" class="btn btn-danger">Cancelar</a>
                                 <button class="btn btn-primary" style="display:none;" id="btnGuardar" type="submit">Guardar</button>
                             </div>
                         </div>

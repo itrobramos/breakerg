@@ -75,9 +75,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel mt-3 pb-2 mb-3 d-flex">
                     <div class="info">
-                        <a href="{{ url('users/changePassword') }}" class="d-block">
+                        {{-- <a href="{{ url('users/changePassword') }}" class="d-block">
                             {{ Auth::user()->name }}
-                        </a>
+                        </a> --}}
+                        {{ Auth::user()->name }}
                     </div>
                 </div>
 
@@ -172,6 +173,14 @@
                         </li>
                         @endif
                     
+                        <li class="nav-header"></li>
+
+                        <li class="nav-item">
+                            <a href="{{ url('users/changePassword') }}" class="nav-link">
+                                <i class="fas fa-solid fa-lock"></i>
+                                Cambiar contraseña                            
+                            </a>    
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link" onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
