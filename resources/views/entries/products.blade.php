@@ -37,6 +37,13 @@
 
         <div class="card">
 
+            <div class="card-header">
+                <div class="row justify-content-between" style="padding-right:20px;">
+                    <a href="{{ url('reports') }}">
+                        <button type="button" class="btn btn-danger">Regresar</button>
+                    </a>
+                </div>
+            </div>
             <div class="card-body">
 
                 <form action="{{ url('entries/products') }}" method="POST" id="form">

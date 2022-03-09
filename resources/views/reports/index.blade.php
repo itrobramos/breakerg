@@ -99,6 +99,21 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="card card-row card-default">
+                        <div class="card-header bg-secondary">
+                            <h3 class="card-title">
+                                Inventario
+                            </h3>
+                        </div>
+                        <div class="card-body" id="body_nuevos">
+                            <a href="{{url('reports/inventary')}}">
+                                <img src="images/inventario.png" alt="" class="" style="object-fit: cover;width:250px;height:250px">
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
          
         </div>

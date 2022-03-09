@@ -26,7 +26,7 @@
 
             <div class="card-header">
                 <div class="row justify-content-between" style="padding-right:20px;">
-                    <a href="{{ url('home') }}">
+                    <a href="{{ url('reports') }}">
                         <button type="button" class="btn btn-danger">Regresar</button>
                     </a>
                     <a href="{{ url('entries/add') }}">

@@ -73,8 +73,7 @@ Route::get('/sales/destroy/{id}','SaleController@destroy')->name('sales.destroy'
 Route::get('/sales/show/{id}','SaleController@show')->name('sales.show');
 
 Route::get('sales/products','SaleController@products')->name('sales.products');
-Route::post('sales/products', 'SaleController@productsPost')->name('sales.products');
-Route::post('sales/products/export', 'SaleController@productsExport')->name('sales.products.export');
+Route::post('reports/cashflow', 'ReportController@cashflowDate')->name('reports.cashflowDate');
 
 ///Reportes
 
@@ -83,6 +82,9 @@ Route::get('reports/cashflow', 'ReportController@cashflow')->name('reports.cashf
 Route::post('reports/cashflow', 'ReportController@cashflowDate')->name('reports.cashflowDate');
 // Route::get('reports/purchase', 'ReportController@purchase')->name('reports.purchase');
 
+Route::get('reports/inventary', 'ReportController@inventary')->name('reports.inventary');
+Route::post('reports/inventary', 'ReportController@inventaryPost')->name('reports.products');
+Route::post('reports/inventary/export', 'ReportController@inventaryExport')->name('reports.products.export');
 
 Auth::routes(
     ['register' => false]
