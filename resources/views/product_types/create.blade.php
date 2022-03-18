@@ -29,7 +29,7 @@
                 <div class="card card-primary">
                     <!-- form start -->
 
-                    <form role="form" method="POST" action="{{ url('/product_types/store') }}">
+                    <form role="form" method="POST" action="{{ url('/product_types/store') }}" autocomplete="off">
                         {{ csrf_field() }}
                         <div class="card-body">
 

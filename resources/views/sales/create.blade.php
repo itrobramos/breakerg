@@ -20,7 +20,7 @@
 
         <br>
         <div class="card-body">
-            <form action="{{ route('sales.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('sales.store') }}" method="post" enctype="multipart/form-data" autocomplete="off">
 
 
                 <div class="row">
