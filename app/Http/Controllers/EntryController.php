@@ -23,7 +23,7 @@ class EntryController extends Controller
 
     public function index()
     {
-        $objects = Entry::orderByDesc('date');
+        $objects = Entry::orderByDesc('date')->get();
         $suppliers = Supplier::orderBy('name')->get();    
 
         return view('entries.index',compact('objects', 'suppliers'));

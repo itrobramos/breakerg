@@ -16,7 +16,7 @@ class ProductTypeController extends Controller
 
     public function index()
     {
-        $objects = ProductType::orderBy('name');
+        $objects = ProductType::orderBy('name')->get();
         return view('product_types.index',compact('objects'));
     }
 
