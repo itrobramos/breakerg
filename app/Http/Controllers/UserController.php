@@ -35,24 +35,50 @@ class UserController extends Controller
             'email' => 'required',
         ]);
 
-        $existingUser = User::where('email', $request->email)->first();
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 8; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        
+        $existingUser = User::where('email', $request->email)->withTrashed()->first();
+       
 
         if (isset($existingUser)) {
             if ($existingUser->deleted_at != null) {
                 //Se reactiva
                 $existingUser->deleted_at = null;
                 $existingUser->save();
+
+                $destinatario = $existingUser->email;
+                $msg = "Ha sido invitad@ a colaborar en el sistema de Breaker G. \n\n "  .
+    
+                    "Para ingresar al sistema ingrese a: " . env('APP_URL') . "\n" .
+                    "Su usario es: " . $existingUser->email . " \n" .
+                    "Contraseña temporal: " . $randomString;
+    
+                $data = [];
+    
+                try {
+                    Mail::send(['email' => 'xxx'], $data, function ($message) use ($destinatario, $msg) {
+                        $message->from('no-reply@breakerg.com', 'BreakerG');
+                        $message->to($destinatario);
+                        $message->subject('Bienvenido a Breaker G');
+                        $message->setBody($msg);
+                    });
+                } catch (\Throwable $th) {
+                }
+    
+                return redirect('users')->with('success', 'Usuario creado correctamente. Revise la bandeja de entrada del usuario.');
+
+
             } else {
                 //Avisar que ya existe
                 return redirect('users')->with('danger', 'El usuario ingresado ya existe.');
             }
         } else {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            $charactersLength = strlen($characters);
-            $randomString = '';
-            for ($i = 0; $i < 8; $i++) {
-                $randomString .= $characters[rand(0, $charactersLength - 1)];
-            }
+          
 
             $User = new User();
             $User->name = $request->name;
@@ -85,7 +111,7 @@ class UserController extends Controller
             } catch (\Throwable $th) {
             }
 
-            return redirect('users')->with('success', 'Usuario creado correctamente. Revise la bandera de entrada del usuario.');
+            return redirect('users')->with('success', 'Usuario creado correctamente. Revise la bandeja de entrada del usuario.');
         }
     }
 
