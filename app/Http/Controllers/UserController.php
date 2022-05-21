@@ -49,6 +49,7 @@ class UserController extends Controller
             if ($existingUser->deleted_at != null) {
                 //Se reactiva
                 $existingUser->deleted_at = null;
+                $existingUser->password = Hash::make($randomString);
                 $existingUser->save();
 
                 $destinatario = $existingUser->email;

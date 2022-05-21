@@ -107,6 +107,33 @@
                                 </div>                                
                             </div>
 
+                            <br>
+
+                            <div class="row pull-left">
+                                <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                                    <label for="rfc">¿Cuenta con crédito?</label>
+                                </div>
+
+                                <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2">
+                                    <input type="checkbox" name="credit" class="form-control" onchange="checkAmount()" id="chkCredit" @if($client->credit) checked @endif>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div id="divMontoCredito" class="row" @if(!$client->credit) style="display: none;" @endif >
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label for="rfc">Crédito otorgado</label>
+                                </div>
+
+
+                                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-3">
+                                    <input type="number" name="creditAmount" step="any" class="form-control" value="{{$client->creditAmount}}">
+                                </div>
+                            </div>
+
+
+
 
 
                         </div>
@@ -128,3 +155,14 @@
 
 
 @endsection
+
+<script>
+    function checkAmount() {
+        if($('#chkCredit').is(':checked')){
+            $("#divMontoCredito").show();
+        }
+        else{
+            $("#divMontoCredito").hide();
+        }
+    }
+</script>

@@ -31,8 +31,6 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-      
-
         $Client = new Client();
         $Client->name = $request->name;
         $Client->address = $request->address;
@@ -40,6 +38,11 @@ class ClientController extends Controller
         $Client->email = $request->email;
         $Client->contact = $request->contact;
         $Client->rfc = $request->rfc;
+
+        if(isset($request->credit)){
+            $Client->credit = true;
+            $Client->creditAmount = $request->creditAmount;
+        }
 
         $Client->save();
         
@@ -56,6 +59,12 @@ class ClientController extends Controller
         $Client->email = $request->email;
         $Client->contact = $request->contact;
         $Client->rfc = $request->rfc;
+
+        if(isset($request->credit)){
+            $Client->credit = true;
+            $Client->creditAmount = $request->creditAmount;
+        }
+
 
         $Client->save();
 
@@ -79,6 +88,16 @@ class ClientController extends Controller
         $Client->email = $request->email;
         $Client->contact = $request->contact;
         $Client->rfc = $request->rfc;
+
+        if(isset($request->credit)){
+            $Client->credit = true;
+            $Client->creditAmount = $request->creditAmount;
+        }
+        else{
+            $Client->credit = false;
+            $Client->creditAmount = 0;
+        }
+
         $Client->save();
 
         return redirect('clients')->with('success','Cliente editado correctamente.');
