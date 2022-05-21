@@ -60,9 +60,13 @@ class ClientController extends Controller
         $Client->contact = $request->contact;
         $Client->rfc = $request->rfc;
 
-        if(isset($request->credit)){
+        if($request->credit == 1){
             $Client->credit = true;
             $Client->creditAmount = $request->creditAmount;
+        }
+        else{
+            $Client->credit = false;
+            $Client->creditAmount = 0;
         }
 
 

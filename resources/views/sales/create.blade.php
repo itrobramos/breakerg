@@ -42,10 +42,11 @@
                             <div class="col-md-10 col-lg-10 col-sm-10 col-xs-10" style="padding-left: 20px;">
                                 <label for="exampleInputEmail1">Cliente</label>
 
-                                <select name="clientId" class="form-control" id="cmbClientes">
+                                <select name="clientId" class="form-control" id="cmbClientes" onchange="changeClient();">
                                     <option value="">Seleccione</option>
                                     @foreach ($clients as $c => $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        <option value="{{ $item->id }}" data-credit="{{ $item->credit }}">
+                                            {{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -120,7 +121,8 @@
                 <div class="row">
                     <div class="col-12">
                         <a href="{{ route('entries.index') }}" class="btn btn-danger">Cancelar</a>
-                        <button class="btn btn-primary" type="submit">Guardar</button>
+                        <button class="btn btn-success" id="btnCredito" style="display:none;" type="submit">Crédito</button>
+                        <button class="btn btn-success" type="submit">Contado</button>
                     </div>
                 </div>
             </form>
@@ -148,74 +150,103 @@
                 <div class="modal-body">
 
 
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                <label for="Nombre">Nombre</label>
-                            </div>
-
-                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                <input type="text" id="txtName" name="name" class="form-control" required>
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="Nombre">Nombre</label>
                         </div>
 
-                        <br>
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="text" id="txtName" name="name" class="form-control" required>
+                        </div>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                <label for="Address">Dirección</label>
-                            </div>
+                    <br>
 
-                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                <input type="text" name="address" id="txtAddress" class="form-control">
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="Address">Dirección</label>
                         </div>
 
-                        <br>
-
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                <label for="Phone">Teléfono</label>
-                            </div>
-
-                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                <input type="text" name="phone" id="txtPhone" class="form-control">
-                            </div>
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="text" name="address" id="txtAddress" class="form-control">
                         </div>
-                        <br>
+                    </div>
 
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                <label for="Email">Email</label>
-                            </div>
+                    <br>
 
-                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                <input type="email" name="email" id="txtEmail" class="form-control">
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="Phone">Teléfono</label>
                         </div>
 
-                        <br>
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="text" name="phone" id="txtPhone" class="form-control">
+                        </div>
+                    </div>
+                    <br>
 
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                <label for="Person">Contacto</label>
-                            </div>
-
-                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                <input type="text" name="contact" id="txtContacto" class="form-control">
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="Email">Email</label>
                         </div>
 
-                        <br>
-
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
-                                <label for="rfc">RFC</label>
-                            </div>
-
-                            <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                                <input type="text" name="rfc" id="txtRFC" class="form-control">
-                            </div>
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="email" name="email" id="txtEmail" class="form-control">
                         </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="Person">Contacto</label>
+                        </div>
+
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="text" name="contact" id="txtContacto" class="form-control">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="rfc">RFC</label>
+                        </div>
+
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="text" name="rfc" id="txtRFC" class="form-control">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="row pull-left">
+                        <div class="col-lg-2 col-md-4 col-sm-12 col-xs-12">
+                            <label for="rfc">¿Cuenta con crédito?</label>
+                        </div>
+
+                        <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2">
+                            <input type="checkbox" name="credit" class="form-control" id="credit" onchange="checkAmount();"
+                                id="chkCredit">
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div id="divMontoCredito" class="row" style="display: none;">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                            <label for="rfc">Crédito otorgado</label>
+                        </div>
+
+
+                        <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                            <input type="number" name="creditAmount" id="creditAmount" step="any" class="form-control">
+                        </div>
+                    </div>
+
+
+
 
 
                 </div>
@@ -280,6 +311,16 @@
             return html;
         }
 
+
+        function checkAmount() {
+            if ($('#credit').is(':checked')) {
+                $("#divMontoCredito").show();
+            } else {
+                $("#divMontoCredito").hide();
+            }
+        }
+
+
         function deletetemplate(i) {
             var RecoveredId = $("#productId" + i).val();
             var RecoveredText = $("#productText" + i).val();
@@ -296,6 +337,20 @@
             $("#" + i).remove();
         }
 
+        function changeClient() {
+            var credit = $("#cmbClientes").find(':selected').data('credit');
+
+            if (credit) 
+            {
+                $("#btnCredito").show();
+            } 
+            else
+            {
+                $("#btnCredito").hide();
+            }
+
+        }
+
         function addClient() {
             var name = $("#txtName").val();
             var address = $("#txtAddress").val();
@@ -303,6 +358,14 @@
             var email = $("#txtEmail").val();
             var contact = $("#txtContacto").val();
             var rfc = $("#txtRFC").val();
+            var creditAmount = $("#creditAmount").val();
+
+            if ($('#credit').is(':checked')) {
+                var credit = 1;
+            } else {
+                var credit = 0;
+            }
+
 
 
             $("#loader").addClass("is-active");
@@ -316,7 +379,9 @@
                     phone,
                     email,
                     contact,
-                    rfc
+                    rfc,
+                    credit, 
+                    creditAmount
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -331,7 +396,7 @@
                     });
                     $("#loader").removeClass("is-active");
 
-                    var html = "<option value = " + data.id + "> " + data.name + " </option>";
+                    var html = "<option value = " + data.id + " data-credit="+ data.credit +"> " + data.name + " </option>";
                     $("#cmbClientes").append(html);
 
                     $('#exampleModal').modal('hide');
@@ -349,6 +414,5 @@
                 }
             });
         }
-
     </script>
 @endsection
