@@ -121,19 +121,27 @@
 
                             <br>
 
-                            <div id="divMontoCredito" class="row" @if(!$client->credit) style="display: none;" @endif >
+                            <div class="divMontoCredito row" @if(!$client->credit) style="display: none;" @endif >
                                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                     <label for="rfc">Crédito otorgado</label>
                                 </div>
-
 
                                 <div class="col-lg-3 col-md-4 col-sm-12 col-xs-3">
                                     <input type="number" name="creditAmount" step="any" class="form-control" value="{{$client->creditAmount}}">
                                 </div>
                             </div>
 
+                            <br>
 
+                            <div class="divMontoCredito row" @if(!$client->credit) style="display: none;" @endif >
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label for="rfc">Días crédito</label>
+                                </div>
 
+                                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-3">
+                                    <input type="number" name="days" step="any" class="form-control" value="{{$client->days}}">
+                                </div>
+                            </div>
 
 
                         </div>
@@ -159,10 +167,10 @@
 <script>
     function checkAmount() {
         if($('#chkCredit').is(':checked')){
-            $("#divMontoCredito").show();
+            $(".divMontoCredito").show();
         }
         else{
-            $("#divMontoCredito").hide();
+            $(".divMontoCredito").hide();
         }
     }
 </script>

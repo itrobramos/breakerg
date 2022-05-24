@@ -31,8 +31,6 @@ class SaleController extends Controller
 
     public function indexPost(Request $request)
     {
-
-
         $fechaInicio = $request->FechaInicio;
         $fechaFin = $request->FechaFin;
         $clientId = $request->clientId;

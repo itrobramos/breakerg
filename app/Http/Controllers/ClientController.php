@@ -41,7 +41,15 @@ class ClientController extends Controller
 
         if(isset($request->credit)){
             $Client->credit = true;
+            $Client->days = $request->days;
             $Client->creditAmount = $request->creditAmount;
+            $Client->availableCredit = $request->creditAmount;
+        }
+        else{
+            $Client->credit = false;
+            $Client->creditAmount = 0;
+            $Client->availableCredit = 0;
+            $Client->days = 0;
         }
 
         $Client->save();
@@ -63,10 +71,14 @@ class ClientController extends Controller
         if($request->credit == 1){
             $Client->credit = true;
             $Client->creditAmount = $request->creditAmount;
+            $Client->availableCredit = $request->creditAmount;
+            $Client->days = $request->days;
         }
         else{
             $Client->credit = false;
             $Client->creditAmount = 0;
+            $Client->availableCredit = 0;
+            $Client->days = 0;
         }
 
 
@@ -93,13 +105,27 @@ class ClientController extends Controller
         $Client->contact = $request->contact;
         $Client->rfc = $request->rfc;
 
+        $difCredit = $Client->creditAmount - $request->creditAmount;
+
+        if($difCredit > 0){
+            //Se reduce disponible
+            $Client->availableCredit = $Client->availableCredit - $difCredit; 
+        }
+        else{
+            //Se incrementa disponible
+            $Client->availableCredit = $Client->availableCredit + $difCredit; 
+        }
+
         if(isset($request->credit)){
             $Client->credit = true;
             $Client->creditAmount = $request->creditAmount;
+            $Client->days = $request->days;
         }
         else{
             $Client->credit = false;
             $Client->creditAmount = 0;
+            $Client->availableCredit = 0;
+            $Client->days = 0;
         }
 
         $Client->save();

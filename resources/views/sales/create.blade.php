@@ -45,7 +45,7 @@
                                 <select name="clientId" class="form-control" id="cmbClientes" onchange="changeClient();">
                                     <option value="">Seleccione</option>
                                     @foreach ($clients as $c => $item)
-                                        <option value="{{ $item->id }}" data-credit="{{ $item->credit }}">
+                                        <option value="{{ $item->id }}" data-credit="{{ $item->credit }}" data-available="{{ $item->availableCredit }}" data-days="{{ $item->days }}">
                                             {{ $item->name }}</option>
                                     @endforeach
                                 </select>
@@ -121,7 +121,7 @@
                 <div class="row">
                     <div class="col-12">
                         <a href="{{ route('entries.index') }}" class="btn btn-danger">Cancelar</a>
-                        <button class="btn btn-success" id="btnCredito" style="display:none;" type="submit">Crédito</button>
+                        <button class="btn btn-success" id="btnCredito" style="display:none;" type="button" data-toggle="modal" data-target="#modalCredito">Crédito</button>
                         <button class="btn btn-success" type="submit">Contado</button>
                     </div>
                 </div>
@@ -258,6 +258,85 @@
         </div>
     </div>
 
+    <div class="modal fade" id="modalCredito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pagar a crédito</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label for="Nombre">Crédito disponible</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                        <input type="text" id="txtCreditoDisponible" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <br>    
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label for="Nombre">Plazo disponible</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                        <input type="text" id="txtDias" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <br>    
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label for="Nombre">Total venta</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                        <input type="text" id="txtTotal" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <br>
+                
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label for="Nombre">Pago inicial</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                        <input type="text" id="txtPagoInicial" class="form-control" onkeyup="calculateCredit()" >
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <label for="Nombre">A Crédito</label>
+                    </div>
+
+                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                        <input type="text" id="txtACredito" class="form-control" readonly >
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnPagarCredito" disabled onclick="pagarCredito()" class="btn btn-success">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         $('.select2').select2();
@@ -276,11 +355,13 @@
             $("#rowsoptions").append(html);
 
             $("#cmbProducts option:selected").remove();
+
+            calculateTotal();
         }
 
         function getTemplate(i, productText, price, productId) {
             var html = `
-                <tr id="${i}" class="bg-light color-palette">
+                <tr id="${i}" class="bg-light color-palette tdQty">
                     <td id="product${i}"
                     
                     return html;>${productText}
@@ -288,12 +369,12 @@
                         <input type="hidden" id="productId${i}" class="form-control" name="product[${i}][productId]" value="${productId}">
                     </td>
                     <td id="product${i}">
-                        <input type="number" step="any" class="form-control" name="product[${i}][quantity]"
-                            id="quantity_${i}" required value="1">
+                        <input type="number" step="any" class="form-control qtyProduct" name="product[${i}][quantity]"
+                            id="quantity_${i}" required value="1" onchange="calculateTotal();">
                     </td>
                     <td>
-                        <input type="number" step="any" class="form-control" name="product[${i}][unitPrice]"
-                            id="extraCost_${i}" required value="${price}">
+                        <input type="number" step="any" class="form-control costProduct" name="product[${i}][unitPrice]"
+                            id="extraCost_${i}" required value="${price}" onchange="calculateTotal();">
                     </td>
                     <td>`;
 
@@ -320,6 +401,45 @@
             }
         }
 
+        function calculateTotal(){
+            
+            var total = 0;
+
+            $('#rowsoptions').each(function (i, obj) {
+
+                $(this).find(".tdQty").each(function(){
+                    var id = $(this).attr('id');
+                    var qtyProduct = $("#" + id).find('.qtyProduct').val();
+                    var costProduct = $("#" + id).find('.costProduct').val();
+
+                    total = total + (qtyProduct * costProduct);
+                });
+
+            });
+
+            $("#txtTotal").val(total);
+
+            
+
+        }
+
+
+        function calculateCredit(){
+            var total =  $("#txtTotal").val();
+            var pagoInicial = $("#txtPagoInicial").val();
+
+            $("#txtACredito").val(total - pagoInicial);
+
+            var CreditoDisponible = $("#txtCreditoDisponible").val();
+            
+            if(CreditoDisponible >= total - pagoInicial){
+                $("#btnPagarCredito").prop("disabled", false);
+            }
+            else
+            {
+                $("#btnPagarCredito").prop("disabled", true);
+            }
+        }
 
         function deletetemplate(i) {
             var RecoveredId = $("#productId" + i).val();
@@ -331,14 +451,26 @@
 
             $("#" + i).remove();
             $(".collapse" + i).remove();
+
+            calculateTotal();
         }
 
         function deletesimpletemplate(i) {
             $("#" + i).remove();
+
+            calculateTotal();
         }
 
         function changeClient() {
             var credit = $("#cmbClientes").find(':selected').data('credit');
+            var available = $("#cmbClientes").find(':selected').data('available');
+            var dias = $("#cmbClientes").find(':selected').data('days'); 
+
+            if(available == null || available == "")
+                available = 0;
+
+            $("#txtCreditoDisponible").val(available);
+            $("#txtDias").val(dias);
 
             if (credit) 
             {
@@ -348,6 +480,10 @@
             {
                 $("#btnCredito").hide();
             }
+
+        }
+
+        function pagarCredito(){
 
         }
 
@@ -365,8 +501,6 @@
             } else {
                 var credit = 0;
             }
-
-
 
             $("#loader").addClass("is-active");
             $.ajax({

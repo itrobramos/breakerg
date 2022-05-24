@@ -116,14 +116,25 @@
 
                             <br>
 
-                            <div id="divMontoCredito" class="row" style="display: none;">
+                            <div class="divMontoCredito row" style="display: none;">
                                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                                     <label for="rfc">Crédito otorgado</label>
                                 </div>
 
-
                                 <div class="col-lg-3 col-md-4 col-sm-12 col-xs-3">
                                     <input type="number" name="creditAmount" step="any" class="form-control">
+                                </div>
+                            </div>
+
+                            <br>
+                            
+                            <div class="divMontoCredito row" style="display: none;">
+                                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                                    <label for="days">Días crédito</label>
+                                </div>
+
+                                <div class="col-lg-3 col-md-4 col-sm-12 col-xs-3">
+                                    <input type="number" name="days" step="any" class="form-control">
                                 </div>
                             </div>
 
@@ -150,10 +161,10 @@
 <script>
     function checkAmount() {
         if($('#chkCredit').is(':checked')){
-            $("#divMontoCredito").show();
+            $(".divMontoCredito").show();
         }
         else{
-            $("#divMontoCredito").hide();
+            $(".divMontoCredito").hide();
         }
     }
 </script>
