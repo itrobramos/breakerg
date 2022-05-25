@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Credit;
 use App\Models\Movement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,9 +24,37 @@ class MovementController extends Controller
         $Movement->type = 1; // 1 Abono 2 Cargo
         $Movement->save();
 
-        #TO_DO
-        //Saldar ventas a credito de la mas antigua a la mas nueva del cliente
-        //Segun permita el abono  
+      
+        $abono = $request->Abono;
+        $credits = Credit::where('clientId', $request->clientId)
+                    ->where('currentCredit','>', 0)  
+                    ->orderBy('endDate')
+                    ->get(); 
+
+        foreach($credits as $credit ){
+            
+            if($abono > 0){
+                
+                if($credit->currentCredit > $abono){
+                    //Se abona
+                    $aAbonar = $abono;
+                    $credit->currentCredit = $credit->currentCredit - $aAbonar ;
+                    $credit->save();
+                    $abono = $abono - $aAbonar;
+
+                }
+                else{
+                    //Se liquida
+                    $abono = $abono - $credit->currentCredit;
+                    $credit->currentCredit = 0;
+                    $credit->save();
+                }
+            }
+            else{
+                break;
+            }
+        }
+
 
         $Client->availableCredit = $Client->availableCredit + $request->Abono;
         $Client->save();

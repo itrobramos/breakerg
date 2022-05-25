@@ -77,11 +77,11 @@
                                         Eliminar
                                     </a>
 
-                                    @if ($client->creditAmount - $client->availableCredit > 0)
+                                    @if ($client->credit)
                                         <a class="btn btn-warning btn-sm"
                                             href="{{ route('clients.pay', ['id' => $client->id]) }}">
                                             <i class="fa fa-money-bill"></i>
-                                            Abonar
+                                            Historial Crédito
                                         </a>
                                     @endif
 

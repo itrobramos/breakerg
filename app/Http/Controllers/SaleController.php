@@ -151,6 +151,7 @@ class SaleController extends Controller
                 $Movement->previosDebt = $Client->creditAmount - $Client->availableCredit;
                 $Movement->newDebt = $Client->creditAmount - $Client->availableCredit + $request->montoCredito;
                 $Movement->type = 2; // 1 Abono 2 Cargo
+                $Movement->saleId =  $object->id;
                 $Movement->save();
            
                 $Client->availableCredit = $Client->availableCredit -  $request->montoCredito;

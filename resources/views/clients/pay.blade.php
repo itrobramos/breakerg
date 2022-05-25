@@ -114,7 +114,15 @@
                                             <td></td>
                                             <td>{{ $movement->payment }}</td>
                                         @else
-                                            <td>{{ $movement->payment }}</td>
+                                            <td>
+                                                <a class="btn btn-info btn-sm"
+                                                    href="{{ route('sales.show', ['id' => $movement->saleId ]) }}">
+                                                    <i class="fas fa-eye">
+                                                    </i>
+                                                    Detalles
+                                                </a>
+                                                {{ $movement->payment }}
+                                            </td>
                                             <td></td>
                                         @endif
                                         <td>${{ $movement->newDebt }}</td>
