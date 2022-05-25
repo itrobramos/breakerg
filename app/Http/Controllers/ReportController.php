@@ -27,11 +27,11 @@ class ReportController extends Controller
 
     public function cashflow()
     {
-        $Egresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(totalcost) total 
+        $Egresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(totalcost) total
         FROM entries
         GROUP BY YEAR(date), MONTH(date)");
 
-        $Ingresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(total) total 
+        $Ingresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(total) total
         FROM sales
         GROUP BY YEAR(date), MONTH(date)");
 
@@ -47,14 +47,14 @@ class ReportController extends Controller
         $fechaInicio = $request->FechaInicio;
         $fechaFin = $request->FechaFin;
 
-        $Egresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(totalcost) total 
+        $Egresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(totalcost) total
         FROM entries
-        WHERE created_at BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'  
+        WHERE created_at BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
         GROUP BY YEAR(date), MONTH(date)");
 
-        $Ingresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(total) total 
+        $Ingresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(total) total
         FROM sales
-        WHERE created_at BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'  
+        WHERE created_at BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
         GROUP BY YEAR(date), MONTH(date)");
 
         $Parameters = [
@@ -80,8 +80,8 @@ class ReportController extends Controller
     {
         $Product = $request->Product;
 
-        $query = "SELECT p.name name, p.stock    
-                     FROM products p 
+        $query = "SELECT p.name name, p.stock
+                     FROM products p
                      WHERE 1 = 1 ";
 
         if (isset($Product)) {
@@ -105,7 +105,7 @@ class ReportController extends Controller
 
     public function clientscredit()
     {
-        $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit 
+        $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit
         FROM credits JOIN sales on credits.saleId = sales.id
                      JOIN clients on credits.clientId = clients.id
         WHERE currentCredit > 0 ";
@@ -126,7 +126,7 @@ class ReportController extends Controller
         $clientId = $request->clientId;
         $fechaVencimiento = $request->fechaVencimiento;
 
-        $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit 
+        $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit
             FROM credits JOIN sales on credits.saleId = sales.id
                          JOIN clients on credits.clientId = clients.id
             WHERE currentCredit > 0 ";
@@ -162,7 +162,7 @@ class ReportController extends Controller
 
 
     public function partialpayments(){
-        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.created_at 
+        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.created_at
         FROM movements JOIN clients on movements.clientId = clients.id
         WHERE type = 1 ";
 
@@ -171,6 +171,53 @@ class ReportController extends Controller
 
         $clients = Client::orderBy('name')->get();
         $data['clients'] = $clients;
+
+        return view('reports.partialPayments', $data);
+    }
+
+    public function partialpaymentsPost(Request $request){
+
+        // $folio = $request->Folio;
+        $clientId = $request->clientId;
+        $fechaInicio = $request->fechaInicio;
+        $fechaFin = $request->fechaFin;
+
+        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.created_at
+        FROM movements
+        LEFT JOIN sales on movements.saleId = sales.id
+        JOIN clients on movements.clientId = clients.id
+        WHERE type = 1 ";
+
+        if (isset($clientId)) {
+            $query = $query . " AND clients.id = " . $clientId;
+        }
+
+        if (isset($fechaInicio)) {
+            $query = $query . " AND movements.created_at >= '" . $fechaInicio . "'";
+        }
+
+        if (isset($fechaFin)) {
+            $query = $query . " AND movements.created_at <= '" . $fechaFin . "'";
+        }
+
+        // if (isset($folio)) {
+        //     $query = $query . " AND sales.folio = " . $folio;
+        // }
+
+        $movements = DB::select($query);
+        $data['movements'] = $movements;
+
+        $clients = Client::orderBy('name')->get();
+        $data['clients'] = $clients;
+
+        $Parameters = [
+            "ClientId" => $clientId,
+            "FechaInicio" => $fechaInicio,
+            "FechaFin" => $fechaFin,
+            // "Folio" => $folio
+        ];
+
+        $data["Parameters"] = $Parameters;
 
         return view('reports.partialPayments', $data);
     }

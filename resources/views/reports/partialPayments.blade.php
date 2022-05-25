@@ -28,13 +28,13 @@
                 </div>
             </div>
 
-            <form action="{{ url('reports/activecredits') }}" method="POST">
+            <form action="{{ url('reports/partialpayments') }}" method="POST">
                 <div class="row" style="margin-left:5px; margin-right:20px;">
 
-                    <div class="col-md-2">
+                    {{-- <div class="col-md-2">
                         <input type="text" class="form-control" id="txtFolio" name="Folio" placeholder="# Remisión"
                             value="{{ isset($Parameters['Folio']) ? $Parameters['Folio'] : '' }}">
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-3">
                         <select name="clientId" class="form-control" id="cmbClientes">
@@ -50,8 +50,14 @@
                     </div>
 
                     <div class="col-md-2">
-                        <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento"
-                            value="{{ isset($Parameters['FechaVencimiento']) ? $Parameters['FechaVencimiento'] : '' }}">
+                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
+                            value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                    </div>
+
+
+                    <div class="col-md-2">
+                        <input type="date" class="form-control" id="fechaFin" name="fechaFin"
+                            value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
                     </div>
 
                     <div class="col-md-2">
