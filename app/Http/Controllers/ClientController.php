@@ -4,6 +4,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\Credit;
+use App\Models\Movement;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -27,6 +30,22 @@ class ClientController extends Controller
     public function create()
     {
         return view('clients.add');
+    }
+
+    public function pay($id){
+        $client = Client::findOrFail($id);
+        $data['client'] = $client;
+
+        $NextDate = Credit::where('clientId', $id)
+                    ->where('currentCredit', '>', 0)
+                    ->min('endDate');
+
+        $data['nextDate'] = $NextDate;
+
+        $Movements = Movement::where('clientId', $id)->get();
+        $data['Movements'] = $Movements;
+        
+        return view('clients.pay', $data);
     }
 
     public function store(Request $request)
@@ -80,13 +99,8 @@ class ClientController extends Controller
             $Client->availableCredit = 0;
             $Client->days = 0;
         }
-
-
         $Client->save();
-
         return $Client->toJson();
-
-        
     }
 
     public function edit($id)

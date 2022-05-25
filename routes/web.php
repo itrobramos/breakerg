@@ -16,6 +16,7 @@ Route::post('/clients/storeAjax', 'ClientController@storeAjax')->name('clients.s
 Route::get('/clients/edit/{id}', 'ClientController@edit')->name('clients.edit');
 Route::patch('/clients/edit/{id}', 'ClientController@update')->name('clients.update');
 Route::get('/clients/destroy/{id}', 'ClientController@destroy')->name('clients.destroy');
+Route::get('/clients/pay/{id}', 'ClientController@pay')->name('clients.pay');
 
 Route::get('users', 'UserController@index')->name('users.index');
 Route::get('/users/add', 'UserController@create')->name('users.add');
@@ -73,11 +74,15 @@ Route::get('/sales/destroy/{id}','SaleController@destroy')->name('sales.destroy'
 Route::get('/sales/show/{id}','SaleController@show')->name('sales.show');
 
 Route::get('sales/products','SaleController@products')->name('sales.products');
-Route::post('reports/cashflow', 'ReportController@cashflowDate')->name('reports.cashflowDate');
+Route::post('/clients/storeAjax', 'ClientController@storeAjax')->name('clients.storeAjax');
+
+Route::post('/payment/store','MovementController@store')->name('payment.store');
+
 
 ///Reportes
 
 Route::get('reports', 'ReportController@index')->name('reports');
+Route::post('reports/cashflow', 'ReportController@cashflowDate')->name('reports.cashflowDate');
 Route::get('reports/cashflow', 'ReportController@cashflow')->name('reports.cashflow');
 Route::post('reports/cashflow', 'ReportController@cashflowDate')->name('reports.cashflowDate');
 // Route::get('reports/purchase', 'ReportController@purchase')->name('reports.purchase');
@@ -85,6 +90,10 @@ Route::post('reports/cashflow', 'ReportController@cashflowDate')->name('reports.
 Route::get('reports/inventary', 'ReportController@inventary')->name('reports.inventary');
 Route::post('reports/inventary', 'ReportController@inventaryPost')->name('reports.products');
 Route::post('reports/inventary/export', 'ReportController@inventaryExport')->name('reports.products.export');
+Route::get('reports/activecredits', 'ReportController@clientscredit')->name('reports.activecredits');
+Route::post('reports/activecredits', 'ReportController@clientscreditPost')->name('reports.activecredits');
+Route::get('reports/partialpayments', 'ReportController@partialpayments')->name('reports.partialpayments');
+Route::post('reports/partialpayments', 'ReportController@partialpaymentsPost')->name('reports.partialpayments');
 
 Auth::routes(
     ['register' => false]

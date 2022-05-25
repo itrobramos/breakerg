@@ -12,6 +12,7 @@ use Auth;
 use App\Exports\SalesExport;
 use App\Exports\SalesDetailsExport;
 use App\Models\Credit;
+use App\Models\Movement;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
@@ -143,8 +144,18 @@ class SaleController extends Controller
                 $credit->endDate = date('Y-m-d', strtotime("+" . $Client->days . " days"));
                 $credit->save();
 
+           
+                $Movement = new Movement();
+                $Movement->clientId = $request->clientId;
+                $Movement->payment = $request->montoCredito;
+                $Movement->previosDebt = $Client->creditAmount - $Client->availableCredit;
+                $Movement->newDebt = $Client->creditAmount - $Client->availableCredit + $request->montoCredito;
+                $Movement->type = 2; // 1 Abono 2 Cargo
+                $Movement->save();
+           
                 $Client->availableCredit = $Client->availableCredit -  $request->montoCredito;
                 $Client->save();
+
             }
             \DB::commit();
             return redirect('sales/add')->with('success', 'Venta creada correctamente.');

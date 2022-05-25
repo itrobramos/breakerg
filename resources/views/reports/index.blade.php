@@ -114,6 +114,37 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="card card-row card-default">
+                        <div class="card-header bg-secondary">
+                            <h3 class="card-title">
+                                Clientes con crédito activo
+                            </h3>
+                        </div>
+                        <div class="card-body" id="body_nuevos">
+                            <a href="{{url('reports/activecredits')}}">
+                                <img src="images/credit.png" alt="" class="" style="object-fit: cover;width:250px;height:250px">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-4 col-lg-3 text-center">
+                    <div class="card card-row card-default">
+                        <div class="card-header bg-secondary">
+                            <h3 class="card-title">
+                                Pagos parciales / Abonos
+                            </h3>
+                        </div>
+                        <div class="card-body" id="body_nuevos">
+                            <a href="{{url('reports/partialpayments')}}">
+                                <img src="images/payment.png" alt="" class="" style="object-fit: cover;width:250px;height:250px">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
             </div>
          
         </div>

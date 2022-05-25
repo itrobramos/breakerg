@@ -2,7 +2,6 @@
 
 
 @section('content')
-
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -44,6 +43,8 @@
                             <th>Cliente</th>
                             <th>Contacto</th>
                             <th>Email</th>
+                            <th>Límite crédito</th>
+                            <th>Debe</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -53,9 +54,13 @@
                                 <td>{{ $client->name }}</td>
                                 <td>{{ $client->contact }}</td>
                                 <td>{{ $client->email }}</td>
+                                <td>${{ $client->creditAmount }}</td>
+                                <td>${{ $client->creditAmount - $client->availableCredit }}</td>
 
                                 <td>
-                                    <a class="btn btn-info btn-sm" href="{{ route('clients.edit', ['id' => $client->id]) }}">
+
+                                    <a class="btn btn-info btn-sm"
+                                        href="{{ route('clients.edit', ['id' => $client->id]) }}">
                                         <i class="fas fa-pencil-alt">
                                         </i>
                                         Editar
@@ -63,14 +68,23 @@
 
                                     <a class="btn btn-danger btn-sm button-destroy"
                                         href="{{ route('clients.destroy', ['id' => $client->id]) }}"
-                                        data-original-title="Eliminar" data-method="get"
-                                        data-trans-button-cancel="Cancelar" data-trans-button-confirm="Eliminar"
+                                        data-original-title="Eliminar" data-method="get" data-trans-button-cancel="Cancelar"
+                                        data-trans-button-confirm="Eliminar"
                                         data-trans-title="¿Está seguro de esta operación?"
                                         data-trans-subtitle="Esta operación eliminará este registro permanentemente">
                                         <i class="fas fa-trash">
                                         </i>
                                         Eliminar
                                     </a>
+
+                                    @if ($client->creditAmount - $client->availableCredit > 0)
+                                        <a class="btn btn-warning btn-sm"
+                                            href="{{ route('clients.pay', ['id' => $client->id]) }}">
+                                            <i class="fa fa-money-bill"></i>
+                                            Abonar
+                                        </a>
+                                    @endif
+
                                 </td>
                         @endforeach
                         </tr>
@@ -88,5 +102,4 @@
             $('#table').DataTable();
         });
     </script>
-
 @endsection
