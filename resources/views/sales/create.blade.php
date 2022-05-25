@@ -45,7 +45,8 @@
                                 <select name="clientId" class="form-control" id="cmbClientes" onchange="changeClient();">
                                     <option value="">Seleccione</option>
                                     @foreach ($clients as $c => $item)
-                                        <option value="{{ $item->id }}" data-credit="{{ $item->credit }}" data-available="{{ $item->availableCredit }}" data-days="{{ $item->days }}">
+                                        <option value="{{ $item->id }}" data-credit="{{ $item->credit }}"
+                                            data-available="{{ $item->availableCredit }}" data-days="{{ $item->days }}">
                                             {{ $item->name }}</option>
                                     @endforeach
                                 </select>
@@ -121,10 +122,93 @@
                 <div class="row">
                     <div class="col-12">
                         <a href="{{ route('entries.index') }}" class="btn btn-danger">Cancelar</a>
-                        <button class="btn btn-success" id="btnCredito" style="display:none;" type="button" data-toggle="modal" data-target="#modalCredito">Crédito</button>
-                        <button class="btn btn-success" type="submit">Contado</button>
+                        <button class="btn btn-success" id="btnCredito" style="display:none;" type="button"
+                            data-toggle="modal" data-target="#modalCredito">Crédito</button>
+                        <input type="submit" class="btn btn-success" name="paymentType" value="Contado"></button>
                     </div>
                 </div>
+
+                <div class="modal fade" id="modalCredito" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Pagar a crédito</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <label for="Nombre">Crédito disponible</label>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                        <input type="text" id="txtCreditoDisponible"  class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <label for="Nombre">Plazo disponible</label>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                        <input type="text" id="txtDias" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <label for="Nombre">Total venta</label>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                        <input type="text" id="txtTotal" name="TotalVenta" class="form-control" readonly>
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <label for="Nombre">Pago inicial</label>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                        <input type="text" id="txtPagoInicial" name="PagoInicial" class="form-control"
+                                            onkeyup="calculateCredit()">
+                                    </div>
+                                </div>
+
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                                        <label for="Nombre">A Crédito</label>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
+                                        <input type="text" id="txtACredito" class="form-control" name="montoCredito" readonly>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                <input type="submit" id="btnPagarCredito" class="btn btn-success" name="paymentType" value="Credito" disabled></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </form>
         </div>
 
@@ -227,8 +311,8 @@
                         </div>
 
                         <div class="col-lg-1 col-md-2 col-sm-2 col-xs-2">
-                            <input type="checkbox" name="credit" class="form-control" id="credit" onchange="checkAmount();"
-                                id="chkCredit">
+                            <input type="checkbox" name="credit" class="form-control" id="credit"
+                                onchange="checkAmount();" id="chkCredit">
                         </div>
                     </div>
 
@@ -245,10 +329,6 @@
                         </div>
                     </div>
 
-
-
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
@@ -258,85 +338,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="modalCredito" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pagar a crédito</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
 
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <label for="Nombre">Crédito disponible</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                        <input type="text" id="txtCreditoDisponible" class="form-control" readonly>
-                    </div>
-                </div>
-
-                <br>    
-
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <label for="Nombre">Plazo disponible</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                        <input type="text" id="txtDias" class="form-control" readonly>
-                    </div>
-                </div>
-
-                <br>    
-
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <label for="Nombre">Total venta</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                        <input type="text" id="txtTotal" class="form-control" readonly>
-                    </div>
-                </div>
-
-                <br>
-                
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <label for="Nombre">Pago inicial</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                        <input type="text" id="txtPagoInicial" class="form-control" onkeyup="calculateCredit()" >
-                    </div>
-                </div>
-
-                <br>
-
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <label for="Nombre">A Crédito</label>
-                    </div>
-
-                    <div class="col-lg-6 col-md-8 col-sm-12 col-xs-12">
-                        <input type="text" id="txtACredito" class="form-control" readonly >
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                <button type="button" id="btnPagarCredito" disabled onclick="pagarCredito()" class="btn btn-success">Aceptar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
     <script>
         $('.select2').select2();
@@ -401,13 +403,13 @@
             }
         }
 
-        function calculateTotal(){
-            
+        function calculateTotal() {
+
             var total = 0;
 
-            $('#rowsoptions').each(function (i, obj) {
+            $('#rowsoptions').each(function(i, obj) {
 
-                $(this).find(".tdQty").each(function(){
+                $(this).find(".tdQty").each(function() {
                     var id = $(this).attr('id');
                     var qtyProduct = $("#" + id).find('.qtyProduct').val();
                     var costProduct = $("#" + id).find('.costProduct').val();
@@ -419,24 +421,22 @@
 
             $("#txtTotal").val(total);
 
-            
+
 
         }
 
 
-        function calculateCredit(){
-            var total =  $("#txtTotal").val();
+        function calculateCredit() {
+            var total = $("#txtTotal").val();
             var pagoInicial = $("#txtPagoInicial").val();
 
             $("#txtACredito").val(total - pagoInicial);
 
             var CreditoDisponible = $("#txtCreditoDisponible").val();
-            
-            if(CreditoDisponible >= total - pagoInicial){
+
+            if (CreditoDisponible >= total - pagoInicial) {
                 $("#btnPagarCredito").prop("disabled", false);
-            }
-            else
-            {
+            } else {
                 $("#btnPagarCredito").prop("disabled", true);
             }
         }
@@ -464,26 +464,23 @@
         function changeClient() {
             var credit = $("#cmbClientes").find(':selected').data('credit');
             var available = $("#cmbClientes").find(':selected').data('available');
-            var dias = $("#cmbClientes").find(':selected').data('days'); 
+            var dias = $("#cmbClientes").find(':selected').data('days');
 
-            if(available == null || available == "")
+            if (available == null || available == "")
                 available = 0;
 
             $("#txtCreditoDisponible").val(available);
             $("#txtDias").val(dias);
 
-            if (credit) 
-            {
+            if (credit) {
                 $("#btnCredito").show();
-            } 
-            else
-            {
+            } else {
                 $("#btnCredito").hide();
             }
 
         }
 
-        function pagarCredito(){
+        function pagarCredito() {
 
         }
 
@@ -514,7 +511,7 @@
                     email,
                     contact,
                     rfc,
-                    credit, 
+                    credit,
                     creditAmount
                 },
                 dataType: 'json',
@@ -530,7 +527,8 @@
                     });
                     $("#loader").removeClass("is-active");
 
-                    var html = "<option value = " + data.id + " data-credit="+ data.credit +"> " + data.name + " </option>";
+                    var html = "<option value = " + data.id + " data-credit=" + data.credit + "> " + data.name +
+                        " </option>";
                     $("#cmbClientes").append(html);
 
                     $('#exampleModal').modal('hide');

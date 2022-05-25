@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Exports\SalesExport;
 use App\Exports\SalesDetailsExport;
+use App\Models\Credit;
 use Maatwebsite\Excel\Facades\Excel;
 use DB;
 
@@ -102,8 +103,7 @@ class SaleController extends Controller
                 $file->move('salesimg/', $filename);
                 $object->imageUrl = "salesimg/" . $filename;
             }
-
-
+            
             if (isset($request->product)) {
                 foreach ($request->product as $product) {
 
@@ -128,6 +128,24 @@ class SaleController extends Controller
                 $object->save();
             }
 
+            if($request->paymentType == "Credito"){
+                $Client = Client::find($request->clientId);
+
+                $credit = new Credit();
+                $credit->saleId = $object->id;
+                $credit->clientId = $request->clientId;
+                $credit->initialPayment = $request->PagoInicial;
+                $credit->credit = $request->montoCredito;
+                $credit->total = $request->TotalVenta;
+
+                $credit->currentCredit = $request->montoCredito;
+                $credit->beginDate = date("Y-m-d");
+                $credit->endDate = date('Y-m-d', strtotime("+" . $Client->days . " days"));
+                $credit->save();
+
+                $Client->availableCredit = $Client->availableCredit -  $request->montoCredito;
+                $Client->save();
+            }
             \DB::commit();
             return redirect('sales/add')->with('success', 'Venta creada correctamente.');
         } catch (\Throwable $th) {
@@ -135,6 +153,9 @@ class SaleController extends Controller
             return redirect('sales/add')->with('danger', 'Error al crear la venta.');
         }
     }
+
+    
+
 
     public function show($id)
     {
