@@ -76,8 +76,13 @@
 
                                 <div class="small-box bg-danger">
                                     <div class="inner">
+                                        @if($client->creditAmount - $client->availableCredit == 0)
+                                        <h3>N/A</h3>
+                                        <p>Sin pagos pendientes</p>
+                                        @else
                                         <h3>{{ $vnextDate->format('d-m-Y') }}</h3>
                                         <p>Próximo vencimiento</p>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

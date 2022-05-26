@@ -119,21 +119,14 @@ class ClientController extends Controller
         $Client->contact = $request->contact;
         $Client->rfc = $request->rfc;
 
-        $difCredit = $Client->creditAmount - $request->creditAmount;
-
-        if($difCredit > 0){
-            //Se reduce disponible
-            $Client->availableCredit = $Client->availableCredit - $difCredit; 
-        }
-        else{
-            //Se incrementa disponible
-            $Client->availableCredit = $Client->availableCredit + $difCredit; 
-        }
 
         if(isset($request->credit)){
+            $CreditAmount = Credit::where('clientId', $id)->where('currentCredit', '>', 0)->sum('currentCredit');
+
             $Client->credit = true;
             $Client->creditAmount = $request->creditAmount;
             $Client->days = $request->days;
+            $Client->availableCredit = $request->creditAmount - $CreditAmount;
         }
         else{
             $Client->credit = false;
