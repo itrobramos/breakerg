@@ -110,7 +110,7 @@
                                 @foreach ($Movements as $movement)
                                     @php
                                         
-                                        $date = new DateTime($movement->created_at);
+                                        $date = new DateTime($movement->date);
                                         
                                     @endphp
                                     <tr>
@@ -174,6 +174,17 @@
                                 <input type="hidden" name="clientId" value="{{ $client->id }}">
                                 <input type="number" step="any" id="txtAbono" name="Abono" class="form-control" required>
                             </div>
+
+                            <br><br>
+
+                            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                                <label for="Nombre">Date</label>
+                            </div>
+
+                            <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
+                                <input type="date" step="any" id="txtDate" name="Date" class="form-control" required value="<?php echo date('Y-m-d'); ?>">
+                            </div>
+
                         </div>
                     </div>
                     <div class="modal-footer">

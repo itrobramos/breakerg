@@ -19,11 +19,11 @@ class MovementController extends Controller
         $Movement = new Movement();
         $Movement->clientId = $request->clientId;
         $Movement->payment = $request->Abono;
+        $Movement->date = $request->Date;
         $Movement->previosDebt = $Client->creditAmount - $Client->availableCredit;
         $Movement->newDebt = $Client->creditAmount - $Client->availableCredit - $request->Abono;
         $Movement->type = 1; // 1 Abono 2 Cargo
         $Movement->save();
-
       
         $abono = $request->Abono;
         $credits = Credit::where('clientId', $request->clientId)

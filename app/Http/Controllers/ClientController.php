@@ -42,7 +42,7 @@ class ClientController extends Controller
 
         $data['nextDate'] = $NextDate;
 
-        $Movements = Movement::where('clientId', $id)->get();
+        $Movements = Movement::where('clientId', $id)->orderBy('date')->get();
         $data['Movements'] = $Movements;
         
         return view('clients.pay', $data);
