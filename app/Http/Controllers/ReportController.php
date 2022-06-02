@@ -10,6 +10,8 @@ use App\Models\Client;
 use App\Models\Credit;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\InventaryExport;
+use App\Exports\ActiveCreditsExport;
+use App\Exports\PartialPaymentsExport;
 use DB;
 
 class ReportController extends Controller
@@ -162,9 +164,10 @@ class ReportController extends Controller
 
 
     public function partialpayments(){
-        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.created_at
+        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.date
         FROM movements JOIN clients on movements.clientId = clients.id
-        WHERE type = 1 ";
+        WHERE type = 1 
+        ORDER BY movements.date";
 
         $movements = DB::select($query);
         $data['movements'] = $movements;
@@ -182,7 +185,7 @@ class ReportController extends Controller
         $fechaInicio = $request->fechaInicio;
         $fechaFin = $request->fechaFin;
 
-        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.created_at
+        $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.date
         FROM movements
         LEFT JOIN sales on movements.saleId = sales.id
         JOIN clients on movements.clientId = clients.id
@@ -199,6 +202,8 @@ class ReportController extends Controller
         if (isset($fechaFin)) {
             $query = $query . " AND movements.created_at <= '" . $fechaFin . "'";
         }
+
+        $query = $query . " ORDER BY movements.date";
 
         // if (isset($folio)) {
         //     $query = $query . " AND sales.folio = " . $folio;
@@ -220,5 +225,25 @@ class ReportController extends Controller
         $data["Parameters"] = $Parameters;
 
         return view('reports.partialPayments', $data);
+    }
+
+    public function clientscreditExport(Request $request)
+    {
+        $fechaVencimiento = $request->fechaVencimiento;
+        $fechaFin = $request->FechaFin;
+        $clientId = $request->clientId;
+        $folio = $request->Folio;
+
+        
+        return Excel::download(new ActiveCreditsExport($folio, $clientId, $fechaVencimiento), 'Creditos Activos.xlsx');
+    }
+
+    public function partialPaymentsExport(Request $request)
+    {
+        $fechaInicio = $request->fechaInicio;
+        $fechaFin = $request->FechaFin;
+        $clientId = $request->clientId;
+        
+        return Excel::download(new PartialPaymentsExport($clientId, $fechaInicio, $fechaFin), 'Pagos parciales.xlsx');
     }
 }

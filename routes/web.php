@@ -92,8 +92,11 @@ Route::post('reports/inventary', 'ReportController@inventaryPost')->name('report
 Route::post('reports/inventary/export', 'ReportController@inventaryExport')->name('reports.products.export');
 Route::get('reports/activecredits', 'ReportController@clientscredit')->name('reports.activecredits');
 Route::post('reports/activecredits', 'ReportController@clientscreditPost')->name('reports.activecredits');
+Route::post('reports/activecredits/export', 'ReportController@clientscreditExport')->name('reports.activecredits.export');
+
 Route::get('reports/partialpayments', 'ReportController@partialpayments')->name('reports.partialpayments');
 Route::post('reports/partialpayments', 'ReportController@partialpaymentsPost')->name('reports.partialpayments');
+Route::post('reports/partialpayments/export', 'ReportController@partialPaymentsExport')->name('reports.partialPayments.export');
 
 Auth::routes(
     ['register' => false]

@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <form action="{{ url('reports/activecredits') }}" method="POST">
+            <form id="form" action="{{ url('reports/activecredits') }}" method="POST">
                 <div class="row" style="margin-left:5px; margin-right:20px;">
 
                     <div class="col-md-2">
@@ -56,6 +56,7 @@
 
                     <div class="col-md-2">
                         <button class="btn btn-success btn-md" type="submit">Buscar</button>
+                        <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
                     </div>
 
                 </div>
@@ -66,7 +67,7 @@
 
             <div class="row">
 
-                <table class="table table-hover">
+                <table class="table table-hover" id="table">
                     <tr class="bg-dark">
                         <td># Remisión</td>
                         <td>Cliente</td>
@@ -100,8 +101,17 @@
 
 
     <script>
+
         $(document).ready(function() {
             $('#table').DataTable();
         });
-    </script>
+
+        $('#btnExportar').click(function(e){
+        $("#form").attr('action','{{ url('reports/activecredits/export') }}')
+        $("#form").submit();
+        $("#form").attr('action','{{ url('reports/activecredits') }}')
+    })
+
+</script>
+
 @endsection

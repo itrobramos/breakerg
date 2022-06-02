@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <form action="{{ url('reports/partialpayments') }}" method="POST">
+            <form action="{{ url('reports/partialpayments') }}" method="POST" id="form">
                 <div class="row" style="margin-left:5px; margin-right:20px;">
 
                     {{-- <div class="col-md-2">
@@ -40,7 +40,7 @@
                         <select name="clientId" class="form-control" id="cmbClientes">
                             <option value="">-Seleccione Cliente-</option>
                             @foreach ($clients as $c => $item)
-                                @if(isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id )
+                                @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
                                     <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
                                 @else
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -62,6 +62,7 @@
 
                     <div class="col-md-2">
                         <button class="btn btn-success btn-md" type="submit">Buscar</button>
+                        <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
                     </div>
 
                 </div>
@@ -81,15 +82,15 @@
                     </tr>
 
                     @foreach ($movements as $movement)
-                        @php 
-                            $fechahoy = new DateTime(); 
-                            $date = new DateTime($movement->created_at); 
+                        @php
+                            $fechahoy = new DateTime();
+                            $date = new DateTime($movement->date);
                         @endphp
                         <tr>
-                            <td>{{$movement->name}}</td>
+                            <td>{{ $movement->name }}</td>
                             <td>{{ $date->format('d-m-Y') }}</td>
-                            <td>$ {{$movement->payment}}</td>
-                            <td>$ {{$movement->newDebt}}</td>
+                            <td>$ {{ $movement->payment }}</td>
+                            <td>$ {{ $movement->newDebt }}</td>
                         </tr>
                     @endforeach
                 </table>
@@ -105,5 +106,13 @@
         $(document).ready(function() {
             $('#table').DataTable();
         });
+
+
+        $('#btnExportar').click(function(e) {
+            $("#form").attr('action', '{{ url('reports/partialpayments/export') }}')
+            $("#form").submit();
+            $("#form").attr('action', '{{ url('reports/partialpayments') }}')
+        })
+
     </script>
 @endsection
