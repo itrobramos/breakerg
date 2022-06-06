@@ -50,6 +50,11 @@
                     </div>
 
                     <div class="col-md-2">
+                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
+                            value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                    </div>
+
+                    <div class="col-md-2">
                         <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento"
                             value="{{ isset($Parameters['FechaVencimiento']) ? $Parameters['FechaVencimiento'] : '' }}">
                     </div>

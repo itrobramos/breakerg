@@ -15,10 +15,11 @@ use DB;
 class ActiveCreditsExport implements FromCollection, WithHeadings
 {
 
-    public function __construct($Folio, $ClientId, $fechaVencimiento)
+    public function __construct($Folio, $ClientId, $fechaVencimiento, $fechaInicio)
     {
         $this->folio = $Folio;
         $this->clientId = $ClientId;
+        $this->fechaInicio = $fechaInicio;
         $this->fechaVencimiento = $fechaVencimiento;
     }
 
@@ -39,6 +40,7 @@ class ActiveCreditsExport implements FromCollection, WithHeadings
         $collection = [];
         $folio = $this->folio;
         $clientId = $this->clientId;
+        $fechaInicio = $this->fechaInicio;
         $fechaVencimiento = $this->fechaVencimiento;
 
       
@@ -52,8 +54,12 @@ class ActiveCreditsExport implements FromCollection, WithHeadings
             $query = $query . " AND clients.id = " . $clientId;
         }
 
+        if(isset($fechaInicio)){
+            $query = $query . "AND credits.endDate >= '" . $fechaInicio . "'";
+        }
+
         if (isset($fechaVencimiento)) {
-            $query = $query . " AND credits.endDate >= '" . $fechaVencimiento . "'";
+            $query = $query . " AND credits.endDate <= '" . $fechaVencimiento . "'";
         }
 
         if (isset($folio)) {

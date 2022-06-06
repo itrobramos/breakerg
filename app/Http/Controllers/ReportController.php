@@ -127,6 +127,7 @@ class ReportController extends Controller
         $folio = $request->Folio;
         $clientId = $request->clientId;
         $fechaVencimiento = $request->fechaVencimiento;
+        $fechaInicio = $request->fechaInicio;
 
         $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit
             FROM credits JOIN sales on credits.saleId = sales.id
@@ -137,8 +138,12 @@ class ReportController extends Controller
             $query = $query . " AND clients.id = " . $clientId;
         }
 
+        if(isset($fechaInicio)){
+            $query = $query . "AND credits.endDate >= '" . $fechaInicio . "'";
+        }
+
         if (isset($fechaVencimiento)) {
-            $query = $query . " AND credits.endDate >= '" . $fechaVencimiento . "'";
+            $query = $query . " AND credits.endDate <= '" . $fechaVencimiento . "'";
         }
 
         if (isset($folio)) {
@@ -154,6 +159,7 @@ class ReportController extends Controller
         $Parameters = [
             "ClientId" => $clientId,
             "FechaVencimiento" => $fechaVencimiento,
+            "FechaInicio" => $fechaInicio,
             "Folio" => $folio
         ];
 
@@ -230,12 +236,12 @@ class ReportController extends Controller
     public function clientscreditExport(Request $request)
     {
         $fechaVencimiento = $request->fechaVencimiento;
-        $fechaFin = $request->FechaFin;
+        $fechaInicio = $request->fechaInicio;
         $clientId = $request->clientId;
         $folio = $request->Folio;
 
         
-        return Excel::download(new ActiveCreditsExport($folio, $clientId, $fechaVencimiento), 'Creditos Activos.xlsx');
+        return Excel::download(new ActiveCreditsExport($folio, $clientId, $fechaVencimiento, $fechaInicio), 'Creditos Activos.xlsx');
     }
 
     public function partialPaymentsExport(Request $request)
