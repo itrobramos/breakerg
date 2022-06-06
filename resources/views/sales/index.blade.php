@@ -89,7 +89,7 @@
                                 <td>{{ @$object->folio }}</td>
                                 <td>{{ @$object->date }}</td>
                                 <td>{{ @$object->client->name }}</td>
-                                <td>$ {{ @$object->total }}</td>
+                                <td>$ {{ number_format(@$object->total, 2, '.', ',') }}</td>
 
                                 <td>
                                     <a class="btn btn-info btn-sm"

@@ -39,7 +39,7 @@
                                 <b>Fecha:</b> {{ @$object->date }}
                             </div>
                             <div class="col-sm-3 invoice-col">
-                                <b>Total:</b> $ {{ $object->total }}
+                                <b>Total:</b> $ {{ number_format($object->total, 2, '.', ',') }}
                             </div>
                             <div class="col-sm-3 invoice-col">
                                 <b>Folio #{{ @$object->folio }}</b>
@@ -67,8 +67,8 @@
                                             <tr>
                                                 <td>{{ @$detail->quantity }}</td>
                                                 <td>{{ @$detail->product->name }}</td>
-                                                <td>${{ @$detail->price }}</td>
-                                                <td>${{ number_format((float) $detail->price * $detail->quantity, 2, '.', '') }}
+                                                <td>${{ number_format(@$detail->price, 2, '.', ',') }}</td>
+                                                <td>${{ number_format($detail->price * $detail->quantity, 2, '.', ',') }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -90,7 +90,7 @@
                                             <tr>
                                                 <th>Total:</th>
                                                 <td>$
-                                                    {{ number_format((float) @$object->total , 2, '.', '') }}
+                                                    {{ number_format(@$object->total , 2, '.', ',') }}
                                                 </td>
                                             </tr>
                                         </tbody>

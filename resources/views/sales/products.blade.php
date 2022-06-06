@@ -120,8 +120,8 @@
                                 <td>{{ @$object->client }}</td>
                                 <td>{{ @$object->product }}</td>
                                 <td>{{ @$object->quantity }}</td>
-                                <td>$ {{ @$object->price }}</td>
-                                <td>$ {{ @$object->quantity * @$object->price }}</td>
+                                <td>$ {{ number_format(@$object->price, 2, '.', ',') }}</td>
+                                <td>$ {{ number_format(@$object->quantity * @$object->price, 2, '.', ',') }}</td>
                                 </td>
                         @endforeach
                         </tr>

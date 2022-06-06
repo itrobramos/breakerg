@@ -54,8 +54,8 @@
                                 <td>{{ $client->name }}</td>
                                 <td>{{ $client->contact }}</td>
                                 <td>{{ $client->email }}</td>
-                                <td>${{ $client->creditAmount }}</td>
-                                <td>${{ $client->creditAmount - $client->availableCredit }}</td>
+                                <td>${{ number_format($client->creditAmount, 2, '.', ',')  }}</td>
+                                <td>${{ number_format($client->creditAmount - $client->availableCredit, 2, '.', ',') }}</td>
 
                                 <td>
 

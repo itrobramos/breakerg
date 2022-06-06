@@ -42,7 +42,7 @@
 
                                 <div class="small-box bg-info">
                                     <div class="inner">
-                                        <h3>${{ $client->creditAmount }}</h3>
+                                        <h3>$ {{ number_format($client->creditAmount, 2, '.', ',') }}</h3>
                                         <p>Crédito otorgado</p>
                                     </div>
                                 </div>
@@ -52,7 +52,7 @@
 
                                 <div class="small-box bg-success">
                                     <div class="inner">
-                                        <h3>${{ $client->availableCredit }}</h3>
+                                        <h3>$ {{ number_format($client->availableCredit, 2, '.', ',') }}</h3>
                                         <p>Crédito disponible</p>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
 
                                 <div class="small-box bg-warning">
                                     <div class="inner">
-                                        <h3>${{ $client->creditAmount - $client->availableCredit }}</h3>
+                                        <h3>$ {{ number_format($client->creditAmount - $client->availableCredit, 2, '.', ',') }}</h3>
                                         <p>Pendiente pago</p>
                                     </div>
                                 </div>
@@ -117,7 +117,7 @@
                                         <td>{{ $date->format('d-m-Y') }}</td>
                                         @if ($movement->type == 1)
                                             <td></td>
-                                            <td>{{ $movement->payment }}</td>
+                                            <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
                                         @else
                                             <td>
                                                 <a class="btn btn-info btn-sm"
@@ -126,11 +126,11 @@
                                                     </i>
                                                     Detalles
                                                 </a>
-                                                {{ $movement->payment }}
+                                                $ {{ number_format($movement->payment, 2, '.', ',') }}
                                             </td>
                                             <td></td>
                                         @endif
-                                        <td>${{ $movement->newDebt }}</td>
+                                        <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
                                     </tr>
                                 @endforeach
 

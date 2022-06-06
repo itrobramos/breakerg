@@ -86,7 +86,7 @@
                             <tr>
                                 <td>{{ $object->supplier->name }}</td>
                                 <td>{{ $object->date }}</td>
-                                <td>$ {{ $object->totalCost }}</td>
+                                <td>$ {{ number_format($object->totalCost, 2, '.', ',') }}</td>
 
                                 <td>
                                     <a class="btn btn-info btn-sm"

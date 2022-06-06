@@ -89,8 +89,8 @@
                         <tr>
                             <td>{{ $movement->name }}</td>
                             <td>{{ $date->format('d-m-Y') }}</td>
-                            <td>$ {{ $movement->payment }}</td>
-                            <td>$ {{ $movement->newDebt }}</td>
+                            <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
+                            <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
                         </tr>
                     @endforeach
                 </table>

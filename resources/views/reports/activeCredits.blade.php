@@ -87,8 +87,8 @@
                             <td>{{$credit->name}}</td>
                             <td>{{ $fechahoy->diff($endDate)->format('%a') }}</td>
                             <td>{{ $endDate->format('d-m-Y') }}</td>
-                            <td>$ {{$credit->total}}</td>
-                            <td>$ {{$credit->currentCredit}}</td>
+                            <td>$ {{number_format($credit->total, 2, '.', ',')}}</td>
+                            <td>$ {{number_format($credit->currentCredit, 2, '.', ',')}}</td>
                         </tr>
                     @endforeach
                 </table>

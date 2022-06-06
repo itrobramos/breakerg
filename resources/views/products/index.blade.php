@@ -51,7 +51,7 @@
                         @foreach ($objects as $object)
                             <tr>
                                 <td>{{ $object->name }}</td>
-                                <td>{{ $object->price }}</td>
+                                <td>$ {{ number_format($object->price, 2, '.', ',') }}</td>
                                 <td>{{ $object->stock }}</td>
                                 <td>{{ $object->type->name}}</td>
                                 <td>
