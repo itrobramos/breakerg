@@ -178,7 +178,7 @@
                             <br><br>
 
                             <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
-                                <label for="Nombre">Date</label>
+                                <label for="Nombre">Fecha</label>
                             </div>
 
                             <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12">
