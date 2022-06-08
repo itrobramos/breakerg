@@ -37,32 +37,45 @@
                     </div> --}}
 
                     <div class="col-md-3">
-                        <select name="clientId" class="form-control" id="cmbClientes">
-                            <option value="">-Seleccione Cliente-</option>
-                            @foreach ($clients as $c => $item)
-                                @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
-                                    <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                                @else
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Cliente</label>
+                            <select name="clientId" class="form-control" id="cmbClientes">
+                                <option value="">-Seleccione Cliente-</option>
+                                @foreach ($clients as $c => $item)
+                                    @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
+                                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                    @else
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
 
                     <div class="col-md-2">
-                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
-                            value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
+                                value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                        </div>
                     </div>
 
 
                     <div class="col-md-2">
-                        <input type="date" class="form-control" id="fechaFin" name="fechaFin"
-                            value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fecha Fin</label>
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin"
+                                value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                        </div>
                     </div>
 
                     <div class="col-md-2">
-                        <button class="btn btn-success btn-md" type="submit">Buscar</button>
-                        <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" style="height:40px;"></label>
+                            <button class="btn btn-success btn-md" type="submit">Buscar</button>
+                            <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
+                        </div>
                     </div>
 
                 </div>
@@ -71,29 +84,35 @@
             <br>
             <br>
 
-            <div class="row">
-
-                <table class="table table-hover">
-                    <tr class="bg-dark">
-                        <td>Cliente</td>
-                        <td>Fecha</td>
-                        <td>Pago</td>
-                        <td>Saldo</td>
-                    </tr>
-
-                    @foreach ($movements as $movement)
-                        @php
-                            $fechahoy = new DateTime();
-                            $date = new DateTime($movement->date);
-                        @endphp
-                        <tr>
-                            <td>{{ $movement->name }}</td>
-                            <td>{{ $date->format('d-m-Y') }}</td>
-                            <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
-                            <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
-                        </tr>
-                    @endforeach
-                </table>
+            <div class="row" >
+                <div class="col-12">
+                    <table class="table table-striped table-bordered" id="table">
+                        <thead class="bg-dark">
+                            <tr>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Pago</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($movements as $movement)
+                            @php
+                                $fechahoy = new DateTime();
+                                $date = new DateTime($movement->date);
+                            @endphp
+                            <tr>
+                                <td>{{ $movement->name }}</td>
+                                <td>{{ $date->format('d-m-Y') }}</td>
+                                <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
+                                <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
+                            </tr>
+                        @endforeach
+    
+                        </tbody>
+                    </table>
+    
+                </div>
 
             </div>
 
@@ -112,7 +131,7 @@
             $("#form").attr('action', '{{ url('reports/partialpayments/export') }}')
             $("#form").submit();
             $("#form").attr('action', '{{ url('reports/partialpayments') }}')
-        })
+        });
 
     </script>
 @endsection

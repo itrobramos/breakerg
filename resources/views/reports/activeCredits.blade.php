@@ -32,36 +32,51 @@
                 <div class="row" style="margin-left:5px; margin-right:20px;">
 
                     <div class="col-md-2">
-                        <input type="text" class="form-control" id="txtFolio" name="Folio" placeholder="# Remisión"
-                            value="{{ isset($Parameters['Folio']) ? $Parameters['Folio'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1"># Remisión</label>
+                            <input type="text" class="form-control" id="txtFolio" name="Folio"
+                                value="{{ isset($Parameters['Folio']) ? $Parameters['Folio'] : '' }}">
+                        </div>
                     </div>
 
                     <div class="col-md-3">
-                        <select name="clientId" class="form-control" id="cmbClientes">
-                            <option value="">-Seleccione Cliente-</option>
-                            @foreach ($clients as $c => $item)
-                                @if(isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id )
-                                    <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                                @else
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Cliente</label>
+                            <select name="clientId" class="form-control" id="cmbClientes">
+                                <option value="">-Seleccione Cliente-</option>
+                                @foreach ($clients as $c => $item)
+                                    @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
+                                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                    @else
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <div class="col-md-2">
-                        <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
-                            value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
+                                value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                        </div>
                     </div>
 
                     <div class="col-md-2">
-                        <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento"
-                            value="{{ isset($Parameters['FechaVencimiento']) ? $Parameters['FechaVencimiento'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fecha Fin</label>
+                            <input type="date" class="form-control" id="fechaVencimiento" name="fechaVencimiento"
+                                value="{{ isset($Parameters['FechaVencimiento']) ? $Parameters['FechaVencimiento'] : '' }}">
+                        </div>
                     </div>
 
                     <div class="col-md-2">
-                        <button class="btn btn-success btn-md" type="submit">Buscar</button>
-                        <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" style="height:40px;"></label>
+                            <button class="btn btn-success btn-md" type="submit">Buscar</button>
+                            <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
+                        </div>
                     </div>
 
                 </div>
@@ -71,32 +86,39 @@
             <br>
 
             <div class="row">
+                <div class="col-12">
+                    <table class="table table-hover" id="table">
+                        <thead>
+                            <tr class="bg-dark">
+                                <th># Remisión</th>
+                                <th>Cliente</th>
+                                <th>Días restantes</th>
+                                <th>Fecha vencimiento</th>
+                                <th>Monto de venta</th>
+                                <th>Monto pendiente</th>
+                            </tr>
 
-                <table class="table table-hover" id="table">
-                    <tr class="bg-dark">
-                        <td># Remisión</td>
-                        <td>Cliente</td>
-                        <td>Días restantes</td>
-                        <td>Fecha vencimiento</td>
-                        <td>Monto de venta</td>
-                        <td>Monto pendiente</td>
-                    </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($credits as $credit)
+                            @php
+                                $fechahoy = new DateTime();
+                                $endDate = new DateTime($credit->endDate);
+                            @endphp
+                            <tr>
+                                <td>{{ $credit->folio }}</td>
+                                <td>{{ $credit->name }}</td>
+                                <td>{{ $fechahoy->diff($endDate)->format('%a') }}</td>
+                                <td>{{ $endDate->format('d-m-Y') }}</td>
+                                <td>$ {{ number_format($credit->total, 2, '.', ',') }}</td>
+                                <td>$ {{ number_format($credit->currentCredit, 2, '.', ',') }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                        
+                    </table>
+                </div>
 
-                    @foreach ($credits as $credit)
-                        @php 
-                            $fechahoy = new DateTime(); 
-                            $endDate = new DateTime($credit->endDate); 
-                        @endphp
-                        <tr>
-                            <td>{{$credit->folio}}</td>
-                            <td>{{$credit->name}}</td>
-                            <td>{{ $fechahoy->diff($endDate)->format('%a') }}</td>
-                            <td>{{ $endDate->format('d-m-Y') }}</td>
-                            <td>$ {{number_format($credit->total, 2, '.', ',')}}</td>
-                            <td>$ {{number_format($credit->currentCredit, 2, '.', ',')}}</td>
-                        </tr>
-                    @endforeach
-                </table>
 
             </div>
 
@@ -106,17 +128,14 @@
 
 
     <script>
-
         $(document).ready(function() {
             $('#table').DataTable();
         });
 
-        $('#btnExportar').click(function(e){
-        $("#form").attr('action','{{ url('reports/activecredits/export') }}')
-        $("#form").submit();
-        $("#form").attr('action','{{ url('reports/activecredits') }}')
-    })
-
-</script>
-
+        $('#btnExportar').click(function(e) {
+            $("#form").attr('action', '{{ url('reports/activecredits/export') }}')
+            $("#form").submit();
+            $("#form").attr('action', '{{ url('reports/activecredits') }}')
+        })
+    </script>
 @endsection

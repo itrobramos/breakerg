@@ -13,7 +13,7 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ url('home') }}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('sales') }}">Detalle de venta</a></li>
-                            <li class="breadcrumb-item active"><a href="#">{{@$object->folio}}</a></li>
+                            <li class="breadcrumb-item active"><a href="#">{{ @$object->folio }}</a></li>
                         </ol>
                     </div>
                 </div>
@@ -27,10 +27,10 @@
 
                         <div class="row invoice-info">
                             <div class="col-sm-2 invoice-col">
-                                <img src="{{env('DEPLOY_URL')}}/dist/img/logo.jpg" style="height: 150px;">
+                                <img src="{{ env('DEPLOY_URL') }}/dist/img/logo.jpg" style="height: 150px;">
                             </div>
                         </div>
-                        
+
                         <div class="row invoice-info">
                             <div class="col-sm-3 invoice-col">
                                 <b>Cliente:</b> {{ @$object->client->name }}
@@ -45,11 +45,11 @@
                                 <b>Folio #{{ @$object->folio }}</b>
                             </div>
                         </div>
-                        
+                    
 
                         <br>
 
-                       
+
                         <div class="row">
                             <div class="col-12 table-responsive">
                                 <table class="table table-striped">
@@ -82,7 +82,6 @@
                         <div class="row">
                             <div class="col-8">
                             </div>
-                            
                             <div class="col-4">
                                 <div class="table-responsive">
                                     <table class="table">
@@ -90,14 +89,13 @@
                                             <tr>
                                                 <th>Total:</th>
                                                 <td>$
-                                                    {{ number_format(@$object->total , 2, '.', ',') }}
+                                                    {{ number_format(@$object->total, 2, '.', ',') }}
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                            
                         </div>
 
                         <div class="row no-print">
@@ -106,6 +104,13 @@
                                     onclick="window.print();return false;" style="margin-right: 5px;">
                                     <i class="fas fa-download"></i> Imprimir / Guardar PDF
                                 </button>
+
+                                <a href="{{ url()->previous() }}"> <button type="button"
+                                        class="btn btn-danger float-right" style="margin-right: 5px;">
+                                        Regresar
+                                    </button>
+                                </a>
+
                             </div>
                         </div>
 
