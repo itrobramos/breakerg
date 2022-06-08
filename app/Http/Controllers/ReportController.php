@@ -202,11 +202,11 @@ class ReportController extends Controller
         }
 
         if (isset($fechaInicio)) {
-            $query = $query . " AND movements.created_at >= '" . $fechaInicio . "'";
+            $query = $query . " AND movements.date >= '" . $fechaInicio . "'";
         }
 
         if (isset($fechaFin)) {
-            $query = $query . " AND movements.created_at <= '" . $fechaFin . "'";
+            $query = $query . " AND movements.date <= '" . $fechaFin . "'";
         }
 
         $query = $query . " ORDER BY movements.date";
@@ -247,7 +247,7 @@ class ReportController extends Controller
     public function partialPaymentsExport(Request $request)
     {
         $fechaInicio = $request->fechaInicio;
-        $fechaFin = $request->FechaFin;
+        $fechaFin = $request->fechaFin;
         $clientId = $request->clientId;
         
         return Excel::download(new PartialPaymentsExport($clientId, $fechaInicio, $fechaFin), 'Pagos parciales.xlsx');

@@ -49,13 +49,14 @@ class PartialPaymentsExport implements FromCollection, WithHeadings
         }
 
         if (isset($fechaInicio)) {
-            $query = $query . " AND movements.created_at >= '" . $fechaInicio . "'";
+            $query = $query . " AND movements.date >= '" . $fechaInicio . "'";
         }
 
         if (isset($fechaFin)) {
-            $query = $query . " AND movements.created_at <= '" . $fechaFin . "'";
+            $query = $query . " AND movements.date <= '" . $fechaFin . "'";
         }
 
+        $query = $query . " ORDER BY movements.date";
         $objects = DB::select($query);
 
         foreach ($objects as $object) {
