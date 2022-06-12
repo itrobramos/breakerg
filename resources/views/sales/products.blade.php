@@ -105,9 +105,9 @@
                         <tr>
                             <th>Folio</th>
                             <th>Fecha</th>
+                            <th>Fecha Vencimiento</th>
                             <th>Cliente</th>
                             <th>Producto</th>
-                            <th>Cantidad</th>
                             <th>Precio Unitario</th>
                             <th>Total</th>
                         </tr>
@@ -117,9 +117,13 @@
                             <tr>
                                 <td>{{ @$object->folio }}</td>
                                 <td>{{ @$object->date }}</td>
+                                @if(isset($object->endDate))
+                                    <td>{{ @$object->endDate }}</td>
+                                @else
+                                    <td>Contado</td>
+                                @endif
                                 <td>{{ @$object->client }}</td>
                                 <td>{{ @$object->product }}</td>
-                                <td>{{ @$object->quantity }}</td>
                                 <td>$ {{ number_format(@$object->price, 2, '.', ',') }}</td>
                                 <td>$ {{ number_format(@$object->quantity * @$object->price, 2, '.', ',') }}</td>
                                 </td>

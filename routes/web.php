@@ -74,6 +74,8 @@ Route::get('/sales/destroy/{id}','SaleController@destroy')->name('sales.destroy'
 Route::get('/sales/show/{id}','SaleController@show')->name('sales.show');
 
 Route::get('sales/products','SaleController@products')->name('sales.products');
+Route::post('sales/products', 'SaleController@productsPost')->name('sales.products');
+Route::post('sales/products/export', 'SaleController@productsExport')->name('sales.products.export');
 Route::post('/clients/storeAjax', 'ClientController@storeAjax')->name('clients.storeAjax');
 
 Route::post('/payment/store','MovementController@store')->name('payment.store');

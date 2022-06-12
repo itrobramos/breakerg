@@ -28,9 +28,9 @@ class SalesDetailsExport implements FromCollection, WithHeadings
         return [
             'Folio',
             'Fecha',
+            'Fecha Vencimiento',
             'Cliente',
             'Producto',
-            'Cantidad',
             'Precio Unitario',
             'Total',
         ];
@@ -46,10 +46,11 @@ class SalesDetailsExport implements FromCollection, WithHeadings
         $productId = $this->ProductId;
         $folio = $this->Folio;
 
-        $query = "SELECT p.name product, sd.quantity, sd.price, c.name client, s.date, s.folio
+        $query = "SELECT p.name product, cr.endDate, sd.quantity, sd.price, c.name client, s.date, s.folio
         FROM sales s INNER JOIN sale_details sd ON s.id = sd.saleId
                      INNER JOIN products p ON p.id = sd.productId
                      INNER JOIN clients c ON c.id = s.clientId
+                     LEFT JOIN credits cr ON s.id = cr.saleId
                      WHERE 1 = 1 ";
 
 
@@ -80,9 +81,9 @@ class SalesDetailsExport implements FromCollection, WithHeadings
             $collection[] = [
                 'Folio' => $sale->folio,
                 'Fecha' => $sale->date,
+                'Fecha Vencimiento' => $sale->endDate,
                 'Cliente' => $sale->client,
                 'Producto' => $sale->product,
-                'Cantidad' => $sale->quantity,
                 'Precio Unitario' => $sale->price,
                 'Total' => $sale->price * $sale->quantity,
             ];

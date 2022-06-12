@@ -109,9 +109,7 @@
 
                                 @foreach ($Movements as $movement)
                                     @php
-                                        
                                         $date = new DateTime($movement->date);
-                                        
                                     @endphp
                                     <tr>
                                         <td>{{ $date->format('d-m-Y') }}</td>

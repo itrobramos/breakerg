@@ -152,6 +152,7 @@ class SaleController extends Controller
                 $Movement->newDebt = $Client->creditAmount - $Client->availableCredit + $request->montoCredito;
                 $Movement->type = 2; // 1 Abono 2 Cargo
                 $Movement->saleId =  $object->id;
+                $Movement->date = $request->date;
                 $Movement->save();
            
                 $Client->availableCredit = $Client->availableCredit -  $request->montoCredito;
@@ -218,10 +219,11 @@ class SaleController extends Controller
 
     public function products()
     {
-        $objects = DB::select("SELECT p.name product, sd.quantity, sd.price, c.name client, s.date, s.folio
+        $objects = DB::select("SELECT p.name product, cr.endDate,sd.quantity, sd.price, c.name client, s.date, s.folio
                     FROM sales s INNER JOIN sale_details sd ON s.id = sd.saleId
                                  INNER JOIN products p ON p.id = sd.productId
                                  INNER JOIN clients c ON c.id = s.clientId
+                                 LEFT JOIN credits cr ON s.id = cr.saleId
                     ");
 
         $clients = Client::orderBy('name')->get();
@@ -239,10 +241,11 @@ class SaleController extends Controller
         $productId = $request->productId;
         $folio = $request->Folio;
 
-        $query = "SELECT p.name product, sd.quantity, sd.price, c.name client, s.date, s.folio
+        $query = "SELECT p.name product, cr.endDate, sd.quantity, sd.price, c.name client, s.date, s.folio
         FROM sales s INNER JOIN sale_details sd ON s.id = sd.saleId
                      INNER JOIN products p ON p.id = sd.productId
                      INNER JOIN clients c ON c.id = s.clientId
+                     LEFT JOIN credits cr ON s.id = cr.saleId
                      WHERE 1 = 1 ";
 
 
