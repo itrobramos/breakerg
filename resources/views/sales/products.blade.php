@@ -13,7 +13,6 @@
         .select2-selection__arrow {
             height: 34px !important;
         }
-
     </style>
 
     <!-- Content Wrapper. Contains page content -->
@@ -44,52 +43,68 @@
                     </a>
                 </div>
             </div>
-            
+
             <div class="card-body">
 
                 <form action="{{ url('sales/products') }}" method="POST" id="form">
                     <div class="row">
 
                         <div class="col-md-2">
-                            <input type="number" class="form-control" id="txtFolio" name="Folio" placeholder="Folio"
-                                value="{{ isset($Parameters['Folio']) ? $Parameters['Folio'] : '' }}">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Folio</label>
+                                <input type="number" class="form-control" id="txtFolio" name="Folio" placeholder="Folio"
+                                    value="{{ isset($Parameters['Folio']) ? $Parameters['Folio'] : '' }}">
+                            </div>
                         </div>
 
                         <div class="col-md-2">
-                            <select name="productId" id="productId" class="form-control select2">
-                                <option value="">Todos</option>
-                                @foreach ($products as $c => $item)
-                                    @if (isset($Parameters['ProductId']) && $Parameters['ProductId'] == $item->id)
-                                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                                    @else
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Producto</label>
+                                <select name="productId" id="productId" class="form-control select2">
+                                    <option value="">Todos</option>
+                                    @foreach ($products as $c => $item)
+                                        @if (isset($Parameters['ProductId']) && $Parameters['ProductId'] == $item->id)
+                                            <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                        @else
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-md-2">
-                            <select name="clientId" class="form-control" id="cmbClientes">
-                                <option value="">Todos</option>
-                                @foreach ($clients as $c => $item)
-                                    @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
-                                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                                    @else
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Cliente</label>
+                                <select name="clientId" class="form-control select2" id="cmbClientes">
+                                    <option value="">Todos</option>
+                                    @foreach ($clients as $c => $item)
+                                        @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
+                                            <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                        @else
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-md-2">
-                            <input type="date" class="form-control" id="txtFechaInicio" name="FechaInicio"
-                                value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fecha Inicio</label>
+                                <input type="date" class="form-control" id="txtFechaInicio" name="FechaInicio"
+                                    value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                            </div>
                         </div>
                         <div class="col-md-2">
-                            <input type="date" class="form-control" id="txtFechaFin" name="FechaFin"
-                                value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fecha Fin</label>
+                                <input type="date" class="form-control" id="txtFechaFin" name="FechaFin"
+                                    value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                            </div>
                         </div>
                         <div class="col-md-2">
+                            <label for="exampleInputEmail1" style="height:40px;"></label>
                             <button class="btn btn-success btn-md" type="submit">Buscar</button>
                             <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
                         </div>
@@ -117,7 +132,7 @@
                             <tr>
                                 <td>{{ @$object->folio }}</td>
                                 <td>{{ @$object->date }}</td>
-                                @if(isset($object->endDate))
+                                @if (isset($object->endDate))
                                     <td>{{ @$object->endDate }}</td>
                                 @else
                                     <td>Contado</td>

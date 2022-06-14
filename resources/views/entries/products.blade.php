@@ -13,7 +13,6 @@
         .select2-selection__arrow {
             height: 34px !important;
         }
-
     </style>
 
     <!-- Content Wrapper. Contains page content -->
@@ -50,40 +49,53 @@
                     <div class="row">
 
                         <div class="col-md-2">
-                            <select name="productId" id="productId" class="form-control select2">
-                                <option value="">Todos</option>
-                                @foreach ($products as $c => $item)
-                                    @if (isset($Parameters['ProductId']) && $Parameters['ProductId'] == $item->id)
-                                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                                    @else
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Producto</label>
+                                <select name="productId" id="productId" class="form-control select2">
+                                    <option value="">Todos</option>
+                                    @foreach ($products as $c => $item)
+                                        @if (isset($Parameters['ProductId']) && $Parameters['ProductId'] == $item->id)
+                                            <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                        @else
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-md-2">
-                            <select name="supplierId" class="form-control" id="cmbSuppliers">
-                                <option value="">Todos</option>
-                                @foreach ($suppliers as $c => $item)
-                                    @if (isset($Parameters['SupplierId']) && $Parameters['SupplierId'] == $item->id)
-                                        <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
-                                    @else
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Proveedor</label>
+                                <select name="supplierId" class="form-control select2" id="cmbSuppliers">
+                                    <option value="">Todos</option>
+                                    @foreach ($suppliers as $c => $item)
+                                        @if (isset($Parameters['SupplierId']) && $Parameters['SupplierId'] == $item->id)
+                                            <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                        @else
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fecha Inicio</label>
                             <input type="date" class="form-control" id="txtFechaInicio" name="FechaInicio"
                                 value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                            </div>
                         </div>
                         <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fecha Fin</label>
                             <input type="date" class="form-control" id="txtFechaFin" name="FechaFin"
                                 value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                            </div>
                         </div>
                         <div class="col-md-2">
+                            <label for="exampleInputEmail1" style="height:40px;"></label>
                             <button class="btn btn-success btn-md" type="submit">Buscar</button>
                             <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
                         </div>

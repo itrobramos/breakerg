@@ -1,6 +1,20 @@
 @extends('layouts.business')
 
 @section('content')
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -39,7 +53,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Cliente</label>
-                            <select name="clientId" class="form-control" id="cmbClientes">
+                            <select name="clientId" class="form-control select2" id="cmbClientes">
                                 <option value="">-Seleccione Cliente-</option>
                                 @foreach ($clients as $c => $item)
                                     @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
@@ -84,7 +98,7 @@
             <br>
             <br>
 
-            <div class="row" >
+            <div class="row">
                 <div class="col-12">
                     <table class="table table-striped table-bordered" id="table">
                         <thead class="bg-dark">
@@ -97,21 +111,21 @@
                         </thead>
                         <tbody>
                             @foreach ($movements as $movement)
-                            @php
-                                $fechahoy = new DateTime();
-                                $date = new DateTime($movement->date);
-                            @endphp
-                            <tr>
-                                <td>{{ $movement->name }}</td>
-                                <td>{{ $date->format('d-m-Y') }}</td>
-                                <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
-                                <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
-                            </tr>
-                        @endforeach
-    
+                                @php
+                                    $fechahoy = new DateTime();
+                                    $date = new DateTime($movement->date);
+                                @endphp
+                                <tr>
+                                    <td>{{ $movement->name }}</td>
+                                    <td>{{ $date->format('d-m-Y') }}</td>
+                                    <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
+                                    <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
+                                </tr>
+                            @endforeach
+
                         </tbody>
                     </table>
-    
+
                 </div>
 
             </div>
@@ -122,6 +136,8 @@
 
 
     <script>
+        $('.select2').select2();
+
         $(document).ready(function() {
             $('#table').DataTable();
         });
@@ -132,6 +148,5 @@
             $("#form").submit();
             $("#form").attr('action', '{{ url('reports/partialpayments') }}')
         });
-
     </script>
 @endsection

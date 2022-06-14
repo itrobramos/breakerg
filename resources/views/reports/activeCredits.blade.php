@@ -1,6 +1,21 @@
 @extends('layouts.business')
 
 @section('content')
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
+
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -42,7 +57,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Cliente</label>
-                            <select name="clientId" class="form-control" id="cmbClientes">
+                            <select name="clientId" class="form-control select2" id="cmbClientes">
                                 <option value="">-Seleccione Cliente-</option>
                                 @foreach ($clients as $c => $item)
                                     @if (isset($Parameters['ClientId']) && $Parameters['ClientId'] == $item->id)
@@ -101,21 +116,21 @@
                         </thead>
                         <tbody>
                             @foreach ($credits as $credit)
-                            @php
-                                $fechahoy = new DateTime();
-                                $endDate = new DateTime($credit->endDate);
-                            @endphp
-                            <tr>
-                                <td>{{ $credit->folio }}</td>
-                                <td>{{ $credit->name }}</td>
-                                <td>{{ $fechahoy->diff($endDate)->format('%a') }}</td>
-                                <td>{{ $endDate->format('d-m-Y') }}</td>
-                                <td>$ {{ number_format($credit->total, 2, '.', ',') }}</td>
-                                <td>$ {{ number_format($credit->currentCredit, 2, '.', ',') }}</td>
-                            </tr>
-                        @endforeach
+                                @php
+                                    $fechahoy = new DateTime();
+                                    $endDate = new DateTime($credit->endDate);
+                                @endphp
+                                <tr>
+                                    <td>{{ $credit->folio }}</td>
+                                    <td>{{ $credit->name }}</td>
+                                    <td>{{ $fechahoy->diff($endDate)->format('%a') }}</td>
+                                    <td>{{ $endDate->format('d-m-Y') }}</td>
+                                    <td>$ {{ number_format($credit->total, 2, '.', ',') }}</td>
+                                    <td>$ {{ number_format($credit->currentCredit, 2, '.', ',') }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
-                        
+
                     </table>
                 </div>
 
@@ -128,6 +143,8 @@
 
 
     <script>
+        $('.select2').select2();
+
         $(document).ready(function() {
             $('#table').DataTable();
         });

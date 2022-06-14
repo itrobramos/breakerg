@@ -2,6 +2,21 @@
 
 
 @section('content')
+    <style>
+        .select2-selection__rendered {
+            line-height: 31px !important;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 35px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 34px !important;
+        }
+    </style>
+
+
     <div class="content-wrapper">
         <div class="content-header">
             <div class="container-fluid">
@@ -29,26 +44,31 @@
                 </div>
             </div>
 
-            
+
 
             <div class="card-body">
 
                 <form action="{{ url('reports/inventary') }}" method="POST" id="form">
                     <div class="row">
-    
+
                         <div class="col-md-4">
-                            <input type="text" class="form-control" id="txtProducto" name="Product" placeholder="Producto"
-                                value="{{ isset($Parameters['Product']) ? $Parameters['Product'] : '' }}">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Producto</label>
+                                <input type="text" class="form-control" id="txtProducto" name="Product"
+                                    placeholder="Producto"
+                                    value="{{ isset($Parameters['Product']) ? $Parameters['Product'] : '' }}">
+                            </div>
                         </div>
 
                         <div class="col-md-2">
+                            <label for="exampleInputEmail1" style="height:40px;"></label>
                             <button class="btn btn-success btn-md" type="submit">Buscar</button>
                             <button class="btn btn-dark btn-md" id="btnExportar" type="button">Exportar</button>
                         </div>
-    
+
                     </div>
                 </form>
-    
+
                 <br>
 
                 <table class="table table-striped table-bordered" id="table">
@@ -74,16 +94,16 @@
 
 
     <script>
+        $('.select2').select2();
+
         $(document).ready(function() {
             $('#table').DataTable();
         });
 
-        $('#btnExportar').click(function(e){
-            $("#form").attr('action','{{ url('reports/inventary/export') }}')
+        $('#btnExportar').click(function(e) {
+            $("#form").attr('action', '{{ url('reports/inventary/export') }}')
             $("#form").submit();
-            $("#form").attr('action','{{ url('reports/inventary') }}')
+            $("#form").attr('action', '{{ url('reports/inventary') }}')
         })
-
     </script>
-
 @endsection

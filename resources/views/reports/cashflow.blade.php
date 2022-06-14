@@ -32,15 +32,24 @@
                 <div class="row">
 
                     <div class="col-md-3">
-                        <input type="date" class="form-control" id="txtFechaInicio" name="FechaInicio"
-                            value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fecha Inicio</label>
+                            <input type="date" class="form-control" id="txtFechaInicio" name="FechaInicio"
+                                value="{{ isset($Parameters['FechaInicio']) ? $Parameters['FechaInicio'] : '' }}">
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <input type="date" class="form-control" id="txtFechaFin" name="FechaFin"
-                            value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Fecha Fin</label>
+                            <input type="date" class="form-control" id="txtFechaFin" name="FechaFin"
+                                value="{{ isset($Parameters['FechaFin']) ? $Parameters['FechaFin'] : '' }}">
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <button class="btn btn-success btn-md" type="submit">Buscar</button>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1" style="height:40px;"></label>
+                            <button class="btn btn-success btn-md" type="submit">Buscar</button>
+                        </div>
                     </div>
 
                 </div>
