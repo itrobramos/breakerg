@@ -51,7 +51,8 @@ class SalesDetailsExport implements FromCollection, WithHeadings
                      INNER JOIN products p ON p.id = sd.productId
                      INNER JOIN clients c ON c.id = s.clientId
                      LEFT JOIN credits cr ON s.id = cr.saleId
-                     WHERE 1 = 1 ";
+                     WHERE 1 = 1 
+                     AND s.deleted_at IS NULL ";
 
 
         if (isset($fechaInicio)) {
