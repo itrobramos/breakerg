@@ -168,7 +168,7 @@ class EntryController extends Controller
 
     public function products()
     {
-        $objects = DB::select("SELECT p.name product, ed.quantity, ed.unitPrice, s.name supplier, e.date
+        $objects = DB::select("SELECT e.folio, p.name product, ed.quantity, ed.unitPrice, s.name supplier, e.date
                     FROM entries e INNER JOIN entry_details ed ON e.id = ed.entryId
                                  INNER JOIN products p ON p.id = ed.productId
                                  INNER JOIN suppliers s ON s.id = e.supplierId
@@ -188,7 +188,7 @@ class EntryController extends Controller
         $supplierId = $request->supplierId;
         $productId = $request->productId;
 
-        $query = "SELECT p.name product, ed.quantity, ed.unitPrice, s.name supplier, e.date
+        $query = "SELECT e.folio, p.name product, ed.quantity, ed.unitPrice, s.name supplier, e.date
         FROM entries e INNER JOIN entry_details ed ON e.id = ed.entryId
                      INNER JOIN products p ON p.id = ed.productId
                      INNER JOIN suppliers s ON s.id = e.supplierId

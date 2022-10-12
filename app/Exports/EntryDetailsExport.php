@@ -25,6 +25,7 @@ class EntryDetailsExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'Folio',
             'Fecha',
             'Proveedor',
             'Producto',
@@ -43,7 +44,7 @@ class EntryDetailsExport implements FromCollection, WithHeadings
         $supplierId = $this->SupplierId;
         $productId = $this->ProductId;
 
-        $query = "SELECT p.name product, ed.quantity, ed.unitPrice, s.name supplier, e.date
+        $query = "SELECT e.folio, p.name product, ed.quantity, ed.unitPrice, s.name supplier, e.date
         FROM entries e INNER JOIN entry_details ed ON e.id = ed.entryId
                      INNER JOIN products p ON p.id = ed.productId
                      INNER JOIN suppliers s ON s.id = e.supplierId
@@ -70,6 +71,7 @@ class EntryDetailsExport implements FromCollection, WithHeadings
 
         foreach ($objects as $entry) {
             $collection[] = [
+                'Folio' => $entry->folio,
                 'Fecha' => $entry->date,
                 'Proveedor' => $entry->supplier,
                 'Producto' => $entry->product,

@@ -109,6 +109,7 @@
                 <table class="table table-striped table-bordered" id="table">
                     <thead>
                         <tr>
+                            <th>Folio</th>
                             <th>Fecha</th>
                             <th>Proveedor</th>
                             <th>Producto</th>
@@ -120,6 +121,7 @@
                     <tbody>
                         @foreach ($objects as $object)
                             <tr>
+                                <td>{{ @$object->folio }}</td>
                                 <td>{{ @$object->date }}</td>
                                 <td>{{ @$object->supplier }}</td>
                                 <td>{{ @$object->product }}</td>
