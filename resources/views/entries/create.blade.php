@@ -39,6 +39,11 @@
                         <input type="date" name="date" class="form-control" required>
                     </div>
 
+                    <div class="col-md-2 col-lg-2 col-sm-3 col-xs-3">
+                        <label for="exampleInputEmail1">Folio</label>
+                        <input type="number" name="folio" min="0" class="form-control">
+                    </div>
+
 
                 </div>
 

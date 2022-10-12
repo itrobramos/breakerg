@@ -82,7 +82,7 @@ class ReportController extends Controller
     {
         $Product = $request->Product;
 
-        $query = "SELECT p.name name, p.stock
+        $query = "SELECT p.name name, p.description, p.stock
                      FROM products p
                      WHERE 1 = 1 ";
 

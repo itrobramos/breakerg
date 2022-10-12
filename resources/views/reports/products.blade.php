@@ -75,6 +75,7 @@
                     <thead>
                         <tr>
                             <th>Nombre</th>
+                            <th>Descripción</th>
                             <th>Stock</th>
                         </tr>
                     </thead>
@@ -82,6 +83,7 @@
                         @foreach ($objects as $object)
                             <tr>
                                 <td>{{ $object->name }}</td>
+                                <td>{{ $object->description }}</td>
                                 <td>{{ $object->stock }}</td>
                         @endforeach
                         </tr>
