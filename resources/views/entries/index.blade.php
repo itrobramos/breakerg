@@ -100,6 +100,7 @@
                 <table class="table table-striped table-bordered" id="table">
                     <thead>
                         <tr>
+                            <th>Folio</th>
                             <th>Proveedor</th>
                             <th>Fecha</th>
                             <th>Total</th>
@@ -109,6 +110,7 @@
                     <tbody>
                         @foreach ($objects as $object)
                             <tr>
+                                <td>{{ @$object->folio}}</td>
                                 <td>{{ $object->supplier->name }}</td>
                                 <td>{{ $object->date }}</td>
                                 <td>$ {{ number_format($object->totalCost, 2, '.', ',') }}</td>

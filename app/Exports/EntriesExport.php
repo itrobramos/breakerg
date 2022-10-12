@@ -23,6 +23,7 @@ class EntriesExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
+            'Folio',
             'Fecha',
             'No Proveedor',
             'Nombre Proveedor',
@@ -52,6 +53,7 @@ class EntriesExport implements FromCollection, WithHeadings
 
         foreach ($objects as $sale) {
             $collection[] = [
+                'folio' => $sale->folio,
                 'date' => $sale->date,
                 'supplierId' => $sale->supplierId,
                 'supplier' => $sale->supplier->name,

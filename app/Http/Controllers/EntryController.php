@@ -81,6 +81,7 @@ class EntryController extends Controller
             $object->supplierId = $request->supplierId;
             $object->date = $request->date;
             $object->totalCost = 0;
+            $object->folio = $request->folio;
             
             $object->save();
 
