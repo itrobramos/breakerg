@@ -31,10 +31,12 @@ class ReportController extends Controller
     {
         $Egresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(totalcost) total
         FROM entries
+        WHERE deleted_at IS NULL
         GROUP BY YEAR(date), MONTH(date)");
 
         $Ingresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(total) total
         FROM sales
+        WHERE deleted_at IS NULL
         GROUP BY YEAR(date), MONTH(date)");
 
         $data["CashFLowGraph2"] = $Egresos;
@@ -52,11 +54,13 @@ class ReportController extends Controller
         $Egresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(totalcost) total
         FROM entries
         WHERE created_at BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
+        AND deleted_at IS NULL
         GROUP BY YEAR(date), MONTH(date)");
 
         $Ingresos = DB::select("SELECT YEAR(date) year, MONTH(date) month, SUM(total) total
         FROM sales
         WHERE created_at BETWEEN '" . $fechaInicio . "' AND '" . $fechaFin . "'
+        AND deleted_at IS NULL
         GROUP BY YEAR(date), MONTH(date)");
 
         $Parameters = [
@@ -110,7 +114,8 @@ class ReportController extends Controller
         $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit
         FROM credits JOIN sales on credits.saleId = sales.id
                      JOIN clients on credits.clientId = clients.id
-        WHERE currentCredit > 0 ";
+        WHERE currentCredit > 0 
+        AND sales.deleted_at IS NULL ";
 
         $Credits = DB::select($query);
         $data['credits'] = $Credits;
@@ -131,8 +136,9 @@ class ReportController extends Controller
 
         $query = "SELECT sales.folio, clients.name, credits.endDate, credits.total, credits.currentCredit
             FROM credits JOIN sales on credits.saleId = sales.id
-                         JOIN clients on credits.clientId = clients.id
-            WHERE currentCredit > 0 ";
+                         JOIN clients on credits.clientId = clients.id  
+            WHERE currentCredit > 0 
+            AND sales.deleted_at IS NULL ";
 
         if (isset($clientId)) {
             $query = $query . " AND clients.id = " . $clientId;
@@ -173,6 +179,7 @@ class ReportController extends Controller
         $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.date
         FROM movements JOIN clients on movements.clientId = clients.id
         WHERE type = 1 
+        AND movements.deleted_at IS NULL
         ORDER BY movements.date";
 
         $movements = DB::select($query);
@@ -195,7 +202,10 @@ class ReportController extends Controller
         FROM movements
         LEFT JOIN sales on movements.saleId = sales.id
         JOIN clients on movements.clientId = clients.id
-        WHERE type = 1 ";
+        WHERE type = 1 
+        AND sales.deleted_at IS NULL 
+        AND movements.deleted_at IS NULL
+        ";
 
         if (isset($clientId)) {
             $query = $query . " AND clients.id = " . $clientId;

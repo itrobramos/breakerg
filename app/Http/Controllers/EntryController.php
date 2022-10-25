@@ -153,6 +153,14 @@ class EntryController extends Controller
    
     public function destroy($id)
     {
+        $details = EntryDetail::where('entryId', $id)->get();
+
+        foreach($details as $detail){
+            $Product = Product::find($detail->productId);
+            $Product->stock = $Product->stock - $detail->quantity;
+            $Product->save();
+        }
+
         Entry::destroy($id);
         return redirect('entries')->with('success','Eliminado correctamente.');
     }

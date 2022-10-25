@@ -202,6 +202,14 @@ class SaleController extends Controller
 
     public function destroy($id)
     {
+        $details = SaleDetail::where('saleId', $id)->get();
+
+        foreach($details as $detail){
+            $Product = Product::find($detail->productId);
+            $Product->stock = $Product->stock + $detail->quantity;
+            $Product->save();
+        }
+
         Sale::destroy($id);
         return redirect('sales')->with('success', 'Eliminado correctamente.');
     }
