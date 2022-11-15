@@ -145,7 +145,7 @@ class ReportController extends Controller
         }
 
         if(isset($fechaInicio)){
-            $query = $query . "AND credits.endDate >= '" . $fechaInicio . "'";
+            $query = $query . " AND credits.endDate >= '" . $fechaInicio . "'";
         }
 
         if (isset($fechaVencimiento)) {
