@@ -179,7 +179,6 @@ class ReportController extends Controller
         $query = "SELECT movements.id, movements.payment, movements.previosDebt, movements.newDebt, clients.name, movements.date
         FROM movements JOIN clients on movements.clientId = clients.id
         WHERE type = 1 
-        AND movements.deleted_at IS NULL
         ORDER BY movements.date";
 
         $movements = DB::select($query);
@@ -204,7 +203,6 @@ class ReportController extends Controller
         JOIN clients on movements.clientId = clients.id
         WHERE type = 1 
         AND sales.deleted_at IS NULL 
-        AND movements.deleted_at IS NULL
         ";
 
         if (isset($clientId)) {
