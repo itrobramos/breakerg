@@ -7,11 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Product;
 use App\Models\Client;
+use App\Models\PartialPayment;
 use App\Models\Credit;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\InventaryExport;
 use App\Exports\ActiveCreditsExport;
 use App\Exports\PartialPaymentsExport;
+use App\Models\Movement;
 use DB;
 
 class ReportController extends Controller
@@ -259,5 +261,23 @@ class ReportController extends Controller
         $clientId = $request->clientId;
         
         return Excel::download(new PartialPaymentsExport($clientId, $fechaInicio, $fechaFin), 'Pagos parciales.xlsx');
+    }
+
+    public function partialPaymentDestroy($id){
+
+        $movement = Movement::find($id);
+        
+        $movements = Movement::where('clientId', $movement->clientId)->where('id', '>', $id)->get();
+
+        foreach($movements as $m){
+            $m->previosDebt += $movement->payment;
+            $m->newDebt += $movement->payment;
+            $m->save();
+        }
+        Movement::destroy($id);
+
+
+        return redirect('reports/partialpayments')->with('success','Abono eliminado correctamente.');
+
     }
 }

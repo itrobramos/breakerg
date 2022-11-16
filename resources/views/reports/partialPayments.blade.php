@@ -107,6 +107,7 @@
                                 <th>Fecha</th>
                                 <th>Pago</th>
                                 <th>Saldo</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -120,6 +121,19 @@
                                     <td>{{ $date->format('d-m-Y') }}</td>
                                     <td>$ {{ number_format($movement->payment, 2, '.', ',') }}</td>
                                     <td>$ {{ number_format($movement->newDebt, 2, '.', ',') }}</td>
+                                    <td>
+                                        <a class="btn btn-danger btn-sm button-destroy"
+                                            href="{{ route('partialPayments.destroy', ['id' => $movement->id]) }}"
+                                            data-original-title="Eliminar" data-method="get"
+                                            data-trans-button-cancel="Cancelar" data-trans-button-confirm="Eliminar"
+                                            data-trans-title="¿Está seguro de esta operación?"
+                                            data-trans-subtitle="Esta operación eliminará este pago parcial">
+                                            <i class="fas fa-trash">
+                                            </i>
+                                            Eliminar
+                                        </a>
+
+                                    </td>
                                 </tr>
                             @endforeach
 
