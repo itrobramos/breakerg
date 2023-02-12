@@ -133,7 +133,12 @@
                                         </a>
                                     @endif
 
-
+                                    <a class="btn btn-primary btn-sm btnTimbrar" href="#"
+                                    data-id="{{ $object->id }}">
+                                    <i class="fas fa-check">
+                                    </i>
+                                    Timbrar
+                                </a>
                                     <a class="btn btn-danger btn-sm button-destroy"
                                         href="{{ route('sales.destroy', ['id' => $object->id]) }}"
                                         data-original-title="Eliminar" data-method="get" data-trans-button-cancel="Cancelar"
@@ -154,7 +159,36 @@
         </div>
     </div>
 
+    <div class="modal" tabindex="-1" role="dialog" id="modalTimbrar">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Timbrar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('sales.timbrar') }}" method="post">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="hidden" name="id" id="txtId">
+                            <label for="exampleInputEmail1">Rfc</label>
+                            <input type="text" class="form-control" value="" id="txtRfc" name="rfc"
+                                required>
+                        </div>
 
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Timbrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
 
     <script>
         $('.select2').select2();
@@ -168,5 +202,13 @@
             $("#form").submit();
             $("#form").attr('action', '{{ url('sales') }}')
         })
+
+        $('.btnTimbrar').click(function(e) {
+                e.preventDefault();
+                var id = $(this).data('id')
+                $('#txtId').val(id);
+                $('#modalTimbrar').modal('show')
+        })
+
     </script>
 @endsection
