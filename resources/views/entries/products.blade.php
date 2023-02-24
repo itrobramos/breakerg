@@ -126,8 +126,8 @@
                                 <td>{{ @$object->supplier }}</td>
                                 <td>{{ @$object->product }}</td>
                                 <td>{{ @$object->quantity }}</td>
-                                <td>$ {{ number_format(@$object->price, 2, '.', ',') }}</td>
-                                <td>$ {{ number_format(@$object->quantity * @$object->price, 2, '.', ',') }}</td>
+                                <td>$ {{ number_format(@$object->unitPrice, 2, '.', ',') }}</td>
+                                <td>$ {{ number_format(@$object->quantity * @$object->unitPrice, 2, '.', ',') }}</td>
                                 </td>
                         @endforeach
                         </tr>
