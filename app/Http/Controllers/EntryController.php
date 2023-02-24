@@ -23,7 +23,7 @@ class EntryController extends Controller
 
     public function index()
     {
-        $objects = Entry::orderByDesc('date')->get();
+        $objects = Entry::with('supplier')->orderByDesc('date')->get();
         $suppliers = Supplier::orderBy('name')->get();    
 
         return view('entries.index',compact('objects', 'suppliers'));
@@ -153,14 +153,14 @@ class EntryController extends Controller
    
     public function destroy($id)
     {
-        $details = EntryDetail::where('entryId', $id)->get();
 
+        $details = EntryDetail::where('entryId', $id)->get();
         foreach($details as $detail){
             $Product = Product::find($detail->productId);
             $Product->stock = $Product->stock - $detail->quantity;
             $Product->save();
         }
-
+        
         Entry::destroy($id);
         return redirect('entries')->with('success','Eliminado correctamente.');
     }
