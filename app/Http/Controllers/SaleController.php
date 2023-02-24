@@ -26,7 +26,7 @@ class SaleController extends Controller
     
     public function index()
     {
-        $objects = Sale::orderBy('date', 'desc')->get();
+        $objects = Sale::with('client')->orderBy('date', 'desc')->get();
         $clients = Client::orderBy('name')->get();
         return view('sales.index', compact('objects', 'clients'));
     }
