@@ -35,7 +35,7 @@ class InventaryExport implements FromCollection, WithHeadings
 
         $query = "SELECT p.name name, p.description, p.stock    
                      FROM products p 
-                     WHERE 1 = 1 ";
+                     WHERE deleted_at IS NULL ";
 
         if (isset($Product)) {
             $query = $query . " AND  p.name LIKE '%" . $Product . "%'";
