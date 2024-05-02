@@ -72,7 +72,7 @@ Route::get('/sales/edit/{id}','SaleController@edit')->name('sales.edit');
 Route::post('/sales/edit/{id}','SaleController@update')->name('sales.update');
 Route::get('/sales/destroy/{id}','SaleController@destroy')->name('sales.destroy');
 Route::get('/sales/show/{id}','SaleController@show')->name('sales.show');
-Route::get('/sales/timbrar/{id}','SaleController@timbrar')->name('sales.show');
+// Route::get('/sales/timbrar/{id}','SaleController@timbrar')->name('sales.show');
 
 Route::get('sales/products','SaleController@products')->name('sales.products');
 Route::post('sales/products', 'SaleController@productsPost')->name('sales.products');
@@ -104,5 +104,5 @@ Route::get('/partialpayments/destroy/{id}','ReportController@partialPaymentDestr
 
 
 Auth::routes(
-    ['register' => false]
+    ['register' => true]
 );
